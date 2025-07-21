@@ -1,0 +1,76 @@
+<odoo>
+  <record id="view_recruitment_form" model="ir.ui.view">
+    <field name="name">recruitment.form</field>
+    <field name="model">future.recruitment</field>
+    <field name="arch" type="xml">
+      <form string="Candidate">
+        <sheet>
+
+          <!-- Statusbar gore desno -->
+          <div class="d-flex justify-content-end mb-2">
+            <field name="state" widget="statusbar" options="{'clickable': False}" readonly="1"/>
+          </div>
+
+          <!-- Slika gore desno -->
+          <div style="float: right; margin: 0 0 10px 10px;">
+            <field name="image"
+                   widget="image"
+                   class="oe_avatar"
+                   options="{'preview_image': 'image'}"
+                   style="width: 128px; height: 128px; border-radius: 8px;"/>
+          </div>
+
+          <!-- Naslov -->
+          <div class="oe_title">
+            <h1>
+              <field name="name" placeholder="Name..." nolabel="1"/>
+            </h1>
+          </div>
+
+          <!-- Dve kolone -->
+          <group col="2">
+            <group>
+              <field name="position_id"/>
+              <field name="contact_id"/>
+              <field name="phone"/>
+              <field name="email"/>
+              <field name="country_id"/>
+              <field name="tag_ids" widget="many2many_tags"/>
+              <field name="more_info"/>
+            </group>
+
+            <group>
+              <field name="sport_id"/>
+              <field name="priority" widget="radio" options="{'horizontal': true}"/>
+              <field name="file" widget="binary" filename="name"/>
+              <field name="create_date" readonly="1"/>
+              <field name="agent_id"/>
+            </group>
+          </group>
+
+          <!-- Tabovi -->
+          <notebook>
+            <page string="Career">
+              <field name="career_ids"/>
+            </page>
+            <page string="Awards">
+              <field name="award_ids"/>
+            </page>
+          </notebook>
+
+          
+        </sheet>
+      </form>
+    </field>
+  </record>
+
+  <!-- AKCIJA -->
+  <record id="action_new_players_acquisition" model="ir.actions.act_window">
+    <field name="name">New-players_aquisition</field>
+    <field name="res_model">future.recruitment</field>
+    <field name="view_mode">list,form</field>
+    <field name="help" type="html">
+      <p>No candidates yet. Create one!</p>
+    </field>
+  </record>
+</odoo>

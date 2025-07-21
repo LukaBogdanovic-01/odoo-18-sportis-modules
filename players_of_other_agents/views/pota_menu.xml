@@ -1,0 +1,9 @@
+<odoo>
+    <menuitem id="menu_player_other_agent_root" name="P_other_agent"/>
+    <menuitem id="menu_player_other_agent" name="Players_other_agent" parent="menu_player_other_agent_root"/>
+    
+    <menuitem id="menu_player_other_agent_items" name="Players_other_agent"
+              parent="menu_player_other_agent"
+              action="action_player_other_agent"
+              sequence="1"/>
+</odoo>

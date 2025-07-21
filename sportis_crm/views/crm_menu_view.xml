@@ -1,0 +1,19 @@
+<odoo>
+    <!-- Setup root -->
+    <menuitem id="menu_crm_setup_root"
+              name="Setup"
+              parent="crm.crm_menu_root"
+              sequence="100"/>
+
+    <menuitem id="menu_crm_setup_player_position"
+              name="Player Positions"
+              parent="menu_crm_setup_root"
+              action="action_player_positions"
+              sequence="1"/>
+
+    <menuitem id="menu_crm_setup_player_nationality"
+              name="Player Nationalities"
+              parent="menu_crm_setup_root"
+              action="action_player_nationalities"
+              sequence="2"/>
+</odoo>

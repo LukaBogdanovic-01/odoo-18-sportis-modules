@@ -1,0 +1,132 @@
+<odoo>
+    <!-- TREE and FORM for Player Positions -->
+    <record id="view_tree_player_position" model="ir.ui.view">
+        <field name="name">x.player.position.list</field>
+        <field name="model">x.player.position</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_form_player_position" model="ir.ui.view">
+        <field name="name">x.player.position.form</field>
+        <field name="model">x.player.position</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_player_positions" model="ir.actions.act_window">
+        <field name="name">Player Positions</field>
+        <field name="res_model">x.player.position</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- TREE and FORM for Player Nationalities -->
+    <record id="view_tree_player_nationality" model="ir.ui.view">
+        <field name="name">x.player.nationality.list</field>
+        <field name="model">x.player.nationality</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_form_player_nationality" model="ir.ui.view">
+        <field name="name">x.player.nationality.form</field>
+        <field name="model">x.player.nationality</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_player_nationalities" model="ir.actions.act_window">
+        <field name="name">Player Nationalities</field>
+        <field name="res_model">x.player.nationality</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+
+
+    <record id="view_tree_contact_qualification" model="ir.ui.view">
+        <field name="name">contact.qualification.list</field>
+        <field name="model">contact.qualification</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_form_contact_qualification" model="ir.ui.view">
+        <field name="name">contact.qualification.form</field>
+        <field name="model">contact.qualification</field>
+        <field name="arch" type="xml">
+            <form string="Contact Qualification">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_contact_qualification" model="ir.actions.act_window">
+        <field name="name">Contact Qualifications</field>
+        <field name="res_model">contact.qualification</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+
+    <!-- Tree View -->
+    <record id="view_tree_nature_of_company" model="ir.ui.view">
+        <field name="name">nature.of.company.list</field>
+        <field name="model">nature.of.company</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Form View -->
+    <record id="view_form_nature_of_company" model="ir.ui.view">
+        <field name="name">nature.of.company.form</field>
+        <field name="model">nature.of.company</field>
+        <field name="arch" type="xml">
+            <form string="Nature of Company">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_nature_of_company" model="ir.actions.act_window">
+        <field name="name">Nature of Companies</field>
+        <field name="res_model">nature.of.company</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+
+</odoo>

@@ -1,0 +1,10 @@
+<odoo>
+  <menuitem id="menu_future_recruitment_root"
+            name="Future Recruitment"
+            sequence="10"/>
+  <menuitem id="menu_new_players_acquisition"
+            name="New-players_aquisition"
+            parent="menu_future_recruitment_root"
+            action="action_new_players_acquisition"
+            sequence="1"/>
+</odoo>

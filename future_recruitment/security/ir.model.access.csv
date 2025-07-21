@@ -1,0 +1,6 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_future_recruitment,future.recruitment,model_future_recruitment,,1,1,1,1
+access_recruitment_career,recruitment.career,model_recruitment_career,,1,1,1,1
+access_recruitment_award,recruitment.award,model_recruitment_award,,1,1,1,1
+access_recruitment_tag,recruitment.tag,model_recruitment_tag,,1,1,1,1
+access_res_sport,res.sport,model_res_sport,,1,1,1,1

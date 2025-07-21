@@ -1,0 +1,18 @@
+<odoo>
+    <menuitem id="menu_contact_setup"
+              name="Setup"
+              parent="contacts.menu_contacts"
+              sequence="99" />
+
+    <menuitem id="menu_contact_qualification"
+              name="Contact Qualifications"
+              parent="menu_contact_setup"
+              action="action_contact_qualification"
+              sequence="1" />
+
+    <menuitem id="menu_nature_of_company"
+              name="Nature of Company"
+              parent="menu_contact_setup"
+              action="action_nature_of_company"
+              sequence="5"/>
+</odoo>

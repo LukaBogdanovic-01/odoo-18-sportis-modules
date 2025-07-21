@@ -1,0 +1,9 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_crm_lead_sportis,access.crm.lead.sportis,crm.model_crm_lead,,1,1,1,1
+access_res_partner_inherit,res.partner.inherit,base.model_res_partner,base.group_user,1,1,1,1
+access_x_player_position,x.player.position,model_x_player_position,base.group_user,1,1,1,1
+access_x_player_nationality,x.player.nationality,model_x_player_nationality,base.group_user,1,1,1,1
+
+access_contact_qualification_user,access.contact.qualification.user,model_contact_qualification,base.group_user,1,1,1,1
+access_nature_of_company_user,access.nature.of.company.user,model_nature_of_company,base.group_user,1,1,1,1
+

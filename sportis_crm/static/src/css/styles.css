@@ -1,0 +1,30 @@
+.o_form_view .styled-radio-group {
+  display: flex;
+  gap: 2px !important;
+}
+
+.o_form_view .styled-radio-group .o_radio_item {
+  margin: 2px !important;
+  padding: 0 !important;
+}
+
+.o_form_view .styled-radio-group input[type="radio"] {
+  display: none !important;
+}
+
+.o_form_view .styled-radio-group .o_radio_item label {
+  background-color: #f5f5f5;
+  border: 1px solid #ccc;
+  padding: 6px 12px;
+  margin: 0 !important;
+  border-radius: 4px; /* uniform radius */
+  cursor: pointer;
+  user-select: none;
+  transition: all 0.2s;
+}
+
+.o_form_view .styled-radio-group input[type="radio"]:checked + label {
+  background-color: #28a7454D ;
+  color: black;
+  border-color: #28a745 ;
+}

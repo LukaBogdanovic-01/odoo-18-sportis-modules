@@ -1,0 +1,84 @@
+<odoo>
+    <record id="view_crm_lead_form_sportis" model="ir.ui.view">
+        <field name="name">crm.lead.form.sportis</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.crm_lead_view_form"/>
+        <field name="arch" type="xml">
+
+            <!-- Dodaj dugme New Quotation -->
+            <xpath expr="//header/button[@name='action_set_won_rainbowman']" position="before">
+                <button name="action_set_new_quotation"
+                        string="New Quotation"
+                        type="object"
+                        class="btn-secondary"
+                        modifiers="{'invisible': [('stage_name', '=', 'New Quotation')]}"/>
+            </xpath>
+
+            <!-- Dodaj statusbar -->
+            <xpath expr="//header" position="inside">
+                <field name="x_secondary_stage" widget="statusbar" class="float-end" options="{'clickable': True}"/>
+            </xpath>
+
+            
+
+
+
+            <!-- Ostali xpath-i iz prethodnog koda -->
+            <xpath expr="//field[@name='probability']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//div[@id='probability']/span" position="replace"/>
+            <xpath expr="//button[@name='action_set_automated_probability']" position="replace"/>
+            <xpath expr="//field[@name='automated_probability']" position="replace"/>
+
+            <xpath expr="//field[@name='lead_properties']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+
+            <xpath expr="//group[@name='opportunity_partner']//field[@name='partner_id']" position="before">
+                <separator string="INFORMATION"/>
+                <field name="x_company_name"/>
+            </xpath>
+            <xpath expr="//group[@name='opportunity_partner']//field[@name='partner_id']" position="after">
+                <field name="x_contact_name"/>
+            </xpath>
+            <xpath expr="//div[@class='o_row o_row_readonly'][.//field[@name='phone']]" position="after">
+                <field name="x_mobile_from_contact"/>
+            </xpath>
+
+            <xpath expr="//field[@name='user_id']" position="replace"/>
+            <xpath expr="//field[@name='tag_ids']" position="after">
+                <field name="x_priority"/>
+                <field name="x_player_position"/>
+                <field name="x_player_nationality"/>
+                <field name="x_country_request"/>
+                <field name="x_file" filename="name"/>
+            </xpath>
+
+            <xpath expr="//page[@name='lead']" position="replace">
+                <page name="extra_info" string="Extra Information">
+                    <group>
+                        <group>
+                            <separator string=" "/>
+                            <field name="other_contact"/>
+                            <field name="function" string="Job Position"/>
+                            <field name="mobile"/>
+                            <field name="website"/>
+                            <field name="description" string="Notes about contact"/>
+                        </group>
+                        <group>
+                            <separator string="Tracking"/>
+                            <field name="create_uid" string="Created by"/>
+                            <field name="create_date" string="Created on"/>
+                            <field name="user_id" string="Salesperson"/>
+                            <field name="team_id" string="Sales Team"/>
+                            <field name="day_open"/>
+                            <field name="date_closed" string="Days to Close"/>
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+
+        </field>
+    </record>
+</odoo>

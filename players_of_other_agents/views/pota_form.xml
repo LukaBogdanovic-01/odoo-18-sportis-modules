@@ -58,6 +58,28 @@
   </record>
 
 
+  <record id="view_player_other_agent_list" model="ir.ui.view">
+    <field name="name">player.other.agent.list</field>
+    <field name="model">player.other.agent</field>
+    <field name="arch" type="xml">
+      <list string="Players (Other Agent)">
+        <field name="name" optional="show"/>
+        <field name="sport" optional="show"/>
+        <field name="position" optional="show"/>
+        <field name="agent_id" optional="show"/>
+        <field name="contact" optional="show"/>
+        <field name="phone" optional="show"/>
+        <field name="email" optional="show"/>
+        <field name="country_id" optional="show"/>
+        <field name="priority" optional="show"/>
+        <field name="state" optional="show"/>
+        <field name="create_date" optional="show"/>
+        <field name="created_by" optional="show"/>
+      </list>
+    </field>
+  </record>
+
+
 
   <record id="action_player_other_agent" model="ir.actions.act_window">
     <field name="name">Players_other_agent</field>

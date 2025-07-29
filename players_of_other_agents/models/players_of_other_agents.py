@@ -26,7 +26,7 @@ class PlayerOtherAgent(models.Model):
         ('3', 'High'),
     ], string="Priority")
     create_date = fields.Datetime(string="Created on", readonly=True)
-    created_by = fields.Many2one('res.users', string="Created by", default=lambda self: self.env.user)
+    created_by = fields.Many2one('res.users', string="Created  by", default=lambda self: self.env.user)
     notes = fields.Text(string="Notes")
     file = fields.Binary(string="Add File")
     image = fields.Binary(string="Image", attachment=True)

@@ -64,6 +64,26 @@
     </field>
   </record>
 
+  <record id="view_recruitment_list" model="ir.ui.view">
+    <field name="name">recruitment.list</field>
+    <field name="model">future.recruitment</field>
+    <field name="arch" type="xml">
+      <list string="Candidates">
+        <field name="name"/>
+        <field name="position_id" optional="show"/>
+        <field name="contact_id" optional="show"/>
+        <field name="sport_id" optional="show"/>
+        <field name="priority" optional="show"/>
+        <field name="phone" optional="show"/>
+        <field name="email" optional="show"/>
+        <field name="country_id" optional="show"/>
+        <field name="state" optional="show"/>
+        <field name="create_date" optional="show"/>
+      </list>
+    </field>
+  </record>
+
+
   <!-- AKCIJA -->
   <record id="action_new_players_acquisition" model="ir.actions.act_window">
     <field name="name">New-players_aquisition</field>

@@ -20,8 +20,19 @@
             </xpath>
 
             
+            <xpath expr="//div[hasclass('d-flex','flex-wrap','align-items-baseline')]" position="replace">
+                <div class="d-flex flex-wrap align-items-baseline">
+                    <field name="company_currency" invisible="1"/>
+                    <field name="expected_revenue" class="o_input_13ch" widget="monetary" options="{'currency_field': 'company_currency'}"/>
+                    <field name="recurring_plan" class="oe_inline o_input_13ch" placeholder="e.g. Monthly" options="{'no_create': True, 'no_open': True}"/>
+                </div>
+            </xpath>
 
 
+
+            <xpath expr="//group[@name='opportunity_partner']//field[@name='phone']" position="replace">
+                <field name="phone" string="Primary Phone" widget="phone"/>
+            </xpath>
 
             <!-- Ostali xpath-i iz prethodnog koda -->
             <xpath expr="//field[@name='probability']" position="attributes">
@@ -42,7 +53,7 @@
             <xpath expr="//group[@name='opportunity_partner']//field[@name='partner_id']" position="after">
                 <field name="x_contact_name"/>
             </xpath>
-            <xpath expr="//div[@class='o_row o_row_readonly'][.//field[@name='phone']]" position="after">
+            <xpath expr="//div[hasclass('o_row','o_row_readonly')][.//field[@name='phone']]" position="after">
                 <field name="x_mobile_from_contact"/>
             </xpath>
 
@@ -81,4 +92,71 @@
 
         </field>
     </record>
+
+    <record id="crm_lead_quick_create_form_inherit_sportis" model="ir.ui.view">
+        <field name="name">crm.lead.form.quick.create.inherit.sportis</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.quick_create_opportunity_form"/> <!-- iz slike -->
+        <field name="arch" type="xml">
+
+            <!-- 1. Promeni placeholder za polje name -->
+            <xpath expr="//field[@name='name']" position="attributes">
+            <attribute name="placeholder">Essential Elements</attribute>
+            </xpath>
+
+            <!-- 2. Ukloni priority iz gornje grupe pored expected_revenue -->
+            <xpath expr="//div[hasclass('o_row')]/field[@name='priority']" position="replace"/>
+
+             <!-- 3. Ubaci recurring_plan pored expected_revenue -->
+            <xpath expr="//div[hasclass('o_row')]/field[@name='expected_revenue']" position="after">
+                <field name="recurring_plan" class="oe_inline" placeholder="e.g. Monthly"/>
+            </xpath>
+
+            <!-- 4. Dodaj priority ispod reda -->
+            <xpath expr="//div[hasclass('o_row')]" position="after">
+                <div>
+                    <field name="priority" widget="priority" class="oe_inline" nolabel="1"/>
+                </div>
+            </xpath>
+
+        </field>
+    </record>
+
+
+    <record id="view_crm_lead_kanban_inherit_sportis" model="ir.ui.view">
+        <field name="name">crm.lead.kanban.inherit.sportis</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.crm_case_kanban_view_leads"/>
+        <field name="arch" type="xml">
+            <xpath expr="//t[@t-name='card']" position="replace">
+                <t t-name="card">
+                    <t t-set="lost_ribbon" t-value="!record.active.raw_value and record.probability and record.probability.raw_value == 0"/>
+                    <widget name="web_ribbon" title="lost" bg_color="text-bg-danger" invisible="probability &gt; 0 or active"/>
+                    <div class="oe_kanban_global_click oe_kanban_card">
+                        <div class="o_kanban_record_title mb-1">
+                            <strong><field name="name"/></strong>
+                        </div>
+                        <div><field name="x_contact_name"/></div>
+                        <div><field name="x_player_position"/></div> 
+                        <div><field name="x_country_request"/></div> 
+                        <div><field name="expected_revenue" widget="monetary" options="{'currency_field': 'company_currency'}"/></div>
+                        <div><field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color'}"/></div>
+                        <div><field name="phone" widget="phone"/></div>
+                        <div><field name="x_company_name"/></div>
+                        <!-- Donji dio kartice -->
+                        <footer class="pt-1">
+                            <div class="d-flex mt-auto align-items-center">
+                                <field name="priority" widget="priority" groups="base.group_user" class="me-2"/>
+                                <field name="activity_ids" widget="kanban_activity"/>
+                                <field name="user_id" widget="many2one_avatar_user" domain="[('share', '=', False)]" class="ms-auto"/>
+                            </div>
+                        </footer>
+                    </div>
+                </t>
+            </xpath>
+        </field>
+    </record>
+
+
+
 </odoo>

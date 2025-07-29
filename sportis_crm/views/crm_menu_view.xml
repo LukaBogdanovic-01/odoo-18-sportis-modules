@@ -16,4 +16,9 @@
               parent="menu_crm_setup_root"
               action="action_player_nationalities"
               sequence="2"/>
+    <menuitem id="menu_crm_setup_player_priority"
+              name="Player Priorities"
+              parent="menu_crm_setup_root"
+              action="action_player_priorities"
+              sequence="2"/>
 </odoo>

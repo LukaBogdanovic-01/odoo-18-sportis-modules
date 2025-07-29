@@ -10,12 +10,12 @@ class CrmLead(models.Model):
     x_file = fields.Binary(string='Upload your file')
     x_company_name = fields.Many2one(
         'res.company', 
-        string='Company', 
+        string='Assigned Company', 
         default=lambda self: self.env.company,
         index=True
     )
-    x_contact_name = fields.Char(string="Contact name", readonly="1")
-    x_mobile_from_contact = fields.Char(string="Mobile from Contact", readonly="1")
+    x_contact_name = fields.Char(string="Contact name", readonly=True)
+    x_mobile_from_contact = fields.Char(string="Mobile from Contact", readonly=True)
     other_contact = fields.Many2one('res.partner', string="Other Contact")
 
 
@@ -46,18 +46,18 @@ class CrmLead(models.Model):
         if stage:
             self.stage_id = stage.id
 
-    @api.model
-    def create(self, vals):
-        # Automatski postavi x_company_name ako nije definisan
-        if 'x_company_name' not in vals:
-            vals['x_company_name'] = self.env.company.id
+    @api.model_create_multi
+    def create(self, vals_list):
+        for vals in vals_list:
+            # Automatski postavi x_company_name ako nije definisan
+            if 'x_company_name' not in vals:
+                vals['x_company_name'] = self.env.company.id
 
-        # Ne dodaj automatski name ako postoji partner_id
-        if not vals.get('name'):
-            vals['name'] = self.env.context.get('default_name', 'New Lead')
-        
-        return super(CrmLead, self).create(vals)
+            # Ne dodaj automatski name ako postoji partner_id
+            if not vals.get('name'):
+                vals['name'] = self.env.context.get('default_name', 'New Lead')
 
+        return super().create(vals_list)
 
 
 
@@ -108,6 +108,11 @@ class ResPartner(models.Model):
             rec.full_address = address
 
 
+class PlayerPriority(models.Model):
+    _name = 'x.player.priority'
+    _description = 'Player Priority'
+
+    name = fields.Char(string="Priority", required=True)
 
 class PlayerPosition(models.Model):
     _name = 'x.player.position'

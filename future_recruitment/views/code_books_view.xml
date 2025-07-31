@@ -1,0 +1,64 @@
+<odoo>
+    <!-- TREE and FORM for Player Positions -->
+    <record id="view_tree_rec_position" model="ir.ui.view">
+        <field name="name">rec.position.list</field>
+        <field name="model">rec.position</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_form_rec_position" model="ir.ui.view">
+        <field name="name">rec.position.form</field>
+        <field name="model">rec.position</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_rec_positions" model="ir.actions.act_window">
+        <field name="name">Player Positions</field>
+        <field name="res_model">rec.position</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+
+    <!-- TREE and FORM for Origin Agent -->
+    <record id="view_tree_origin_agent" model="ir.ui.view">
+        <field name="name">origin.agent.list</field>
+        <field name="model">origin.agent</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_form_origin_agent" model="ir.ui.view">
+        <field name="name">origin.agent.form</field>
+        <field name="model">origin.agent</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_origin_agent" model="ir.actions.act_window">
+        <field name="name">Origin Agent</field>
+        <field name="res_model">origin.agent</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>

@@ -59,6 +59,7 @@
                   <field name="followup_by_id" widget="many2one_avatar_user"/>
                   <field name="sport"/>
                   <field name="training_center" widget="boolean_toggle" string="Training center"/>
+                  <field name="country_location"/>
                 </group>
 
                 <field name="lang" invisible="1"/>
@@ -70,6 +71,23 @@
 
       </field>
     </record>
+
+
+    <!-- ZA TODO CHATTER -->
+    <record id="view_task_form_inherit_chatter" model="ir.ui.view">
+      <field name="name">project.task.form.inherit.chatter</field>
+      <field name="model">project.task</field>
+      <field name="inherit_id" ref="project_todo.project_task_view_todo_form"/>
+      <field name="arch" type="xml">
+          <xpath expr="//form/sheet" position="after">
+              <chatter/>
+          </xpath>
+      </field>
+  </record>
+
+
+
+
 
   </data>
 </odoo>

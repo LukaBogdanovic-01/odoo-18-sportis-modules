@@ -6,13 +6,13 @@ class FutureRecruitment(models.Model):
     _description = 'Future Recruitment'
 
     name = fields.Char(required=True)
-    position_id = fields.Many2one('hr.job', string="Position")
+    position_id = fields.Many2one('rec.position', string="Position")
     contact_id = fields.Many2one('res.partner', string="Contact")
     phone = fields.Char()
     email = fields.Char()
     country_id = fields.Many2one('res.country', string="Country")
     tag_ids = fields.Many2many('recruitment.tag', string="Tags")
-    sport_id = fields.Many2one('res.sport', string="Sport")
+    sport_id = fields.Many2one('res.company', string="Sport")
     priority = fields.Selection([
         ('0', 'Normal'),
         ('1', 'Low'),
@@ -22,6 +22,7 @@ class FutureRecruitment(models.Model):
     file = fields.Binary(string="Attachment")
     create_date = fields.Datetime(readonly=True)
     agent_id = fields.Many2one('res.partner', string="Origin Agent")
+    origin_agent_id = fields.Many2one('origin.agent', string="Origin Agent 2")
     image = fields.Image()
     more_info = fields.Text(string="More Information")
     state = fields.Selection([
@@ -69,5 +70,17 @@ class RecruitmentTag(models.Model):
 class ResSport(models.Model):
     _name = 'res.sport'
     _description = 'Sport'
+
+    name = fields.Char(required=True)
+
+class RecPosition(models.Model):
+    _name = 'rec.position'
+    _description = 'Position'
+
+    name = fields.Char(required=True)
+
+class OriginAgent(models.Model):
+    _name = 'origin.agent'
+    _description = 'Origin Agent'
 
     name = fields.Char(required=True)

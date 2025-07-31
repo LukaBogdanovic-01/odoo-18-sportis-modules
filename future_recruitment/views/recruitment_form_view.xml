@@ -45,6 +45,7 @@
               <field name="file" widget="binary" filename="name"/>
               <field name="create_date" readonly="1"/>
               <field name="agent_id"/>
+              <field name="origin_agent_id"/>
             </group>
           </group>
 
@@ -60,6 +61,7 @@
 
           
         </sheet>
+        <chatter/>
       </form>
     </field>
   </record>
@@ -83,12 +85,72 @@
     </field>
   </record>
 
+  <record id="view_recruitment_kanban" model="ir.ui.view">
+  <field name="name">future.recruitment.kanban</field>
+  <field name="model">future.recruitment</field>
+  <field name="arch" type="xml">
+    <kanban class="o_kanban_mobile">
+      <field name="name"/>
+      <field name="position_id"/>
+      <field name="sport_id"/>
+      <field name="contact_id"/>
+      <field name="country_id"/>
+      <field name="priority"/>
+      <field name="state"/>
+
+      <templates>
+        <t t-name="card">
+          <div class="oe_kanban_global_click o_kanban_card p-2">
+            <!-- Naslov -->
+            <div>
+              <strong><field name="name"/></strong>
+            </div>
+
+            <!-- Osnovni podaci -->
+            <div class="mt-2">
+              <div t-if="record.contact_id.raw_value">
+                <i class="fa fa-user text-muted" title="Contact"/>
+                <field name="contact_id"/>
+              </div>
+              <div t-if="record.position_id.raw_value">
+                <i class="fa fa-briefcase text-muted" title="Position"/>
+                <field name="position_id"/>
+              </div>
+              <div t-if="record.sport_id.raw_value">
+                <i class="fa fa-futbol-o text-muted" title="Sport"/>
+                <field name="sport_id"/>
+
+              </div>
+              <div t-if="record.country_id.raw_value">
+                <i class="fa fa-globe text-muted" title="Country"/>
+                <field name="country_id"/>
+              </div>
+            </div>
+
+            <!-- Status i prioritet -->
+            <div class="mt-2 d-flex justify-content-between align-items-center">
+              <span class="badge bg-info text-white">
+                <field name="priority"/>
+              </span>
+              <span class="badge bg-secondary text-white">
+                <field name="state"/>
+              </span>
+            </div>
+          </div>
+        </t>
+      </templates>
+    </kanban>
+  </field>
+</record>
+
+
+
 
   <!-- AKCIJA -->
   <record id="action_new_players_acquisition" model="ir.actions.act_window">
     <field name="name">New-players_aquisition</field>
     <field name="res_model">future.recruitment</field>
-    <field name="view_mode">list,form</field>
+    <field name="view_mode">kanban,list,form</field>
     <field name="help" type="html">
       <p>No candidates yet. Create one!</p>
     </field>

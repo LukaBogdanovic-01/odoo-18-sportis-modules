@@ -23,6 +23,7 @@
         <field name="sport"/>
         <field name="position"/>
         <field name="agent_id"/>
+        <field name="origin_agent_id"/>
         <field name="contact"/>
         <field name="phone"/>
         <field name="email"/>
@@ -52,7 +53,7 @@
     </div>
   </div>
 </sheet>
-
+<chatter/>
       </form>
     </field>
   </record>
@@ -67,6 +68,7 @@
         <field name="sport" optional="show"/>
         <field name="position" optional="show"/>
         <field name="agent_id" optional="show"/>
+        <field name="origin_agent_id" optional="show"/>
         <field name="contact" optional="show"/>
         <field name="phone" optional="show"/>
         <field name="email" optional="show"/>
@@ -79,11 +81,71 @@
     </field>
   </record>
 
+  <record id="view_player_other_agent_kanban" model="ir.ui.view">
+    <field name="name">player.other.agent.kanban</field>
+    <field name="model">player.other.agent</field>
+    <field name="arch" type="xml">
+      <kanban class="o_kanban_mobile">
+        <field name="name"/>
+        <field name="sport"/>
+        <field name="position"/>
+        <field name="agent_id"/>
+        <field name="origin_agent_id"/>
+        <field name="country_id"/>
+        <field name="priority"/>
+        <field name="state"/>
+
+        <templates>
+          <t t-name="card">
+            <div class="oe_kanban_global_click o_kanban_card p-2">
+              <!-- Naslov -->
+              <div>
+                <strong><field name="name"/></strong>
+              </div>
+
+              <!-- Osnovni podaci -->
+              <div class="mt-2">
+                <div t-if="record.position.raw_value">
+                  <i class="fa fa-briefcase text-muted" title="Position"/>
+                  <field name="position"/>
+                </div>
+                <div t-if="record.sport.raw_value">
+                  <i class="fa fa-futbol-o text-muted" title="Sport"/>
+                  <field name="sport"/>
+                </div>
+                <div t-if="record.agent_id.raw_value">
+                  <i class="fa fa-user-tie text-muted" title="Agent"/>
+                  <field name="agent_id"/>
+                </div>
+                <div t-if="record.country_id.raw_value">
+                  <i class="fa fa-globe text-muted" title="Country"/>
+                  <field name="country_id"/>
+                </div>
+              </div>
+
+              <!-- Status i prioritet -->
+              <div class="mt-2 d-flex justify-content-between align-items-center">
+                <span class="badge bg-info text-white">
+                  <field name="priority"/>
+                </span>
+                <span class="badge bg-secondary text-white">
+                  <field name="state"/>
+                </span>
+              </div>
+            </div>
+          </t>
+        </templates>
+      </kanban>
+    </field>
+  </record>
+
+
+
 
 
   <record id="action_player_other_agent" model="ir.actions.act_window">
     <field name="name">Players_other_agent</field>
     <field name="res_model">player.other.agent</field>
-    <field name="view_mode">list,form</field>
+    <field name="view_mode">kanban,list,form</field>
   </record>
 </odoo>

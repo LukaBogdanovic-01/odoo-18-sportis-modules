@@ -1,23 +1,27 @@
 from odoo import models, fields, api
 
+from odoo import models, fields, api
+
 class CrmLead(models.Model):
     _inherit = 'crm.lead'
 
-    x_priority = fields.Char(string='New Priority')
+    x_priority = fields.Many2one('x.player.priority', string='New Priority')
     x_player_position = fields.Many2one('x.player.position', string="Player's Position")
     x_player_nationality = fields.Many2one('x.player.nationality', string="Player's Nationality")
     x_country_request = fields.Many2one('res.country', string='Country request')
     x_file = fields.Binary(string='Upload your file')
+
     x_company_name = fields.Many2one(
-        'res.company', 
-        string='Assigned Company', 
+        'res.company',
+        string='Assigned Company',
         default=lambda self: self.env.company,
         index=True
     )
-    x_contact_name = fields.Char(string="Contact name", readonly=True)
-    x_mobile_from_contact = fields.Char(string="Mobile from Contact", readonly=True)
-    other_contact = fields.Many2one('res.partner', string="Other Contact")
 
+    x_contact_name = fields.Char(string="Contact name", compute="_compute_partner_info", store=True, readonly=True)
+    x_mobile_from_contact = fields.Char(string="Mobile from Contact", compute="_compute_partner_info", store=True, readonly=True)
+
+    other_contact = fields.Many2one('res.partner', string="Other Contact")
 
     x_secondary_stage = fields.Selection([
         ('first', 'First Status'),
@@ -25,20 +29,15 @@ class CrmLead(models.Model):
         ('third', 'Third Status'),
     ], string="Secondary Status", default='first', tracking=True)
 
-
-    @api.onchange('partner_id')
-    def _onchange_partner_id_mobile(self):
-        if self.partner_id:
-            self.x_mobile_from_contact = self.partner_id.mobile
-        else:
-            self.x_mobile_from_contact = False
-
-    @api.onchange('partner_id')
-    def _onchange_partner_id_contact_name(self):
-        if self.partner_id:
-            self.x_contact_name = self.partner_id.name
-        else:
-            self.x_contact_name = False
+    @api.depends('partner_id')
+    def _compute_partner_info(self):
+        for rec in self:
+            if rec.partner_id:
+                rec.x_contact_name = rec.partner_id.name
+                rec.x_mobile_from_contact = rec.partner_id.mobile
+            else:
+                rec.x_contact_name = False
+                rec.x_mobile_from_contact = False
 
     def action_set_new_quotation(self):
         self.ensure_one()
@@ -49,15 +48,12 @@ class CrmLead(models.Model):
     @api.model_create_multi
     def create(self, vals_list):
         for vals in vals_list:
-            # Automatski postavi x_company_name ako nije definisan
             if 'x_company_name' not in vals:
                 vals['x_company_name'] = self.env.company.id
-
-            # Ne dodaj automatski name ako postoji partner_id
             if not vals.get('name'):
                 vals['name'] = self.env.context.get('default_name', 'New Lead')
-
         return super().create(vals_list)
+
 
 
 
@@ -75,7 +71,7 @@ class ResPartner(models.Model):
         'contact.qualification', string="Contact Qualification"
     )
     followup_by_id = fields.Many2one('res.users', string="Follow-up by")
-    sport = fields.Many2one('res.partner', string="Sport")
+    sport = fields.Many2one('res.company', string="Sport")
 
     # Novo polje koje se koristi u XML-u
     phone_secondary = fields.Char(string="Office phone")
@@ -92,6 +88,7 @@ class ResPartner(models.Model):
     x_nature_of_company = fields.Many2one(
         'nature.of.company', string="Nature of Company"
     )
+    country_location = fields.Many2one('res.country', string="Country Location")
 
 
     @api.depends('street', 'street2', 'zip', 'city', 'state_id', 'country_id')
@@ -137,3 +134,6 @@ class NatureOfCompany(models.Model):
     _description = 'Nature of Company'
 
     name = fields.Char(string="Nature", required=True)
+
+class TodoTask(models.Model):
+    _inherit = 'project.task'

@@ -9,6 +9,7 @@
     'data': [
         'security/ir.model.access.csv',
         'views/pota_form.xml',
+        'views/code_books_view.xml',
         'views/pota_menu.xml',
     ],
     'assets': {

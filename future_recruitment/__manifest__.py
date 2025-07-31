@@ -9,6 +9,7 @@
     'data': [
         'security/ir.model.access.csv',
         'views/recruitment_form_view.xml',
+        'views/code_books_view.xml',
         'views/recruitment_menu.xml',
     ],
     'assets': {

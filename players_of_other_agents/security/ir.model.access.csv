@@ -1,2 +1,3 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_player_other_agent,access_player_other_agent,model_player_other_agent,,1,1,1,1
+access_pota_origin_agent,pota.origin.agent,model_pota_origin_agent,,1,1,1,1

@@ -3,17 +3,19 @@ from odoo import models, fields
 class PlayerOtherAgent(models.Model):
     _name = 'player.other.agent'
     _description = 'Player Other Agent'
+    _inherit = ['mail.thread', 'mail.activity.mixin']
 
     name = fields.Char(string="Name", required=True)
-    sport = fields.Many2one('res.sport', string="Sport")
+    sport = fields.Many2one('res.company', string="Sport")
     position = fields.Many2one(
-        'x.player.position',
+        'rec.position',
         string="Position",
         related='lead_id.x_player_position',
         store=True,
         readonly=False
     )
     agent_id = fields.Many2one('res.users', string="Agent of origin")
+    origin_agent_id = fields.Many2one('pota.origin.agent', string="Origin Agent")
     contact = fields.Char(string="Contact")
     phone = fields.Char(string="Phone")
     email = fields.Char(string="Email")
@@ -39,3 +41,9 @@ class PlayerOtherAgent(models.Model):
     lead_id = fields.Many2one('crm.lead', string="CRM Lead")
     
 
+
+class PotaOriginAgent(models.Model):
+    _name = 'pota.origin.agent'
+    _description = 'Origin Agent'
+
+    name = fields.Char(required=True)

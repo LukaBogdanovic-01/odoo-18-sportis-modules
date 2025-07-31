@@ -1,0 +1,33 @@
+<odoo>
+
+    <!-- TREE and FORM for Origin Agent -->
+    <record id="view_tree_origin_agent" model="ir.ui.view">
+        <field name="name">pota.origin.agent.list</field>
+        <field name="model">pota.origin.agent</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_form_origin_agent" model="ir.ui.view">
+        <field name="name">pota.origin.agent.form</field>
+        <field name="model">pota.origin.agent</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_origin_agent" model="ir.actions.act_window">
+        <field name="name">Origin Agent</field>
+        <field name="res_model">pota.origin.agent</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>

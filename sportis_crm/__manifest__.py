@@ -4,7 +4,7 @@
     'summary': 'Custom CRM enhancements for Sportis project',
     'category': 'Sales/CRM',
     'author': 'Luka',
-    'depends': ['crm', 'base', 'sales_team'],
+    'depends': ['crm', 'base', 'sales_team', 'project_todo'],
     'license': 'LGPL-3',
     'data': [
         'security/ir.model.access.csv',

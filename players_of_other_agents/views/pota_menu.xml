@@ -5,5 +5,7 @@
     <menuitem id="menu_player_other_agent_items" name="Players_other_agent" parent="menu_player_other_agent" action="action_player_other_agent" sequence="1"/>
     <menuitem id="menu_player_other_agent_setup" name="Setup" parent="menu_player_other_agent_root" sequence="2"/>
 
-    <menuitem id="menu_origin_agent" name="Origin Agent" parent="menu_player_other_agent_setup" action="action_origin_agent" sequence="1"/>
+    <menuitem id="menu_pota_position" name="Position" parent="menu_player_other_agent_setup" action="action_pota_positions" sequence="1"/>
+    <menuitem id="menu_origin_agent" name="Origin Agent" parent="menu_player_other_agent_setup" action="action_origin_agent" sequence="2"/>
+    <!-- <menuitem id="menu_pota_kanban_stages" name="Stages" parent="menu_player_other_agent_setup" action="action_pota_kanban_stage" sequence="3"/> -->
 </odoo>

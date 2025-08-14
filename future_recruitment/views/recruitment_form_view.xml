@@ -44,7 +44,7 @@
               <field name="priority" widget="radio" options="{'horizontal': true}"/>
               <field name="file" widget="binary" filename="name"/>
               <field name="create_date" readonly="1"/>
-              <field name="agent_id"/>
+              <!-- <field name="agent_id"/> -->
               <field name="origin_agent_id"/>
             </group>
           </group>
@@ -89,7 +89,7 @@
   <field name="name">future.recruitment.kanban</field>
   <field name="model">future.recruitment</field>
   <field name="arch" type="xml">
-    <kanban class="o_kanban_mobile">
+    <kanban default_group_by="stage_id" class="o_kanban_mobile">
       <field name="name"/>
       <field name="position_id"/>
       <field name="sport_id"/>

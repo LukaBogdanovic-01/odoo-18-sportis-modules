@@ -8,7 +8,7 @@ class PlayerOtherAgent(models.Model):
     name = fields.Char(string="Name", required=True)
     sport = fields.Many2one('res.company', string="Sport")
     position = fields.Many2one(
-        'rec.position',
+        'pota.position',
         string="Position",
         related='lead_id.x_player_position',
         store=True,
@@ -39,6 +39,8 @@ class PlayerOtherAgent(models.Model):
         ('done', 'Done'),
     ], default='new', string="Status")
     lead_id = fields.Many2one('crm.lead', string="CRM Lead")
+
+    stage_id = fields.Many2one('pota.kanban.stages', string='Stage')
     
 
 
@@ -47,3 +49,18 @@ class PotaOriginAgent(models.Model):
     _description = 'Origin Agent'
 
     name = fields.Char(required=True)
+
+class RecPosition(models.Model):
+    _name = 'pota.position'
+    _description = 'Position'
+
+    name = fields.Char(required=True)
+
+class KanbanStages(models.Model):
+    _name = 'pota.kanban.stages'
+    _description = 'Kanban stages'
+    _order = 'sequence, id'
+
+    name = fields.Char('Stage Name', required=True)
+    sequence = fields.Integer('Sequence', default=1)
+    fold = fields.Boolean('Folded in Kanban')

@@ -21,8 +21,8 @@ class FutureRecruitment(models.Model):
     ], default='0')
     file = fields.Binary(string="Attachment")
     create_date = fields.Datetime(readonly=True)
-    agent_id = fields.Many2one('res.partner', string="Origin Agent")
-    origin_agent_id = fields.Many2one('origin.agent', string="Origin Agent 2")
+    agent_id = fields.Many2one('res.partner', string="Origin Agent invisible")
+    origin_agent_id = fields.Many2one('origin.agent', string="Origin Agent")
     image = fields.Image()
     more_info = fields.Text(string="More Information")
     state = fields.Selection([
@@ -31,7 +31,7 @@ class FutureRecruitment(models.Model):
         ('done', 'Fait')
     ], string='Status', default='new', tracking=True)
 
-
+    stage_id = fields.Many2one('rec.kanban.stages', string='Stage')
 
     career_ids = fields.One2many('recruitment.career', 'recruitment_id', string="Career")
     award_ids = fields.One2many('recruitment.award', 'recruitment_id', string="Awards")
@@ -84,3 +84,13 @@ class OriginAgent(models.Model):
     _description = 'Origin Agent'
 
     name = fields.Char(required=True)
+
+
+class KanbanStages(models.Model):
+    _name = 'rec.kanban.stages'
+    _description = 'Kanban stages'
+    _order = 'sequence, id'
+
+    name = fields.Char('Stage Name', required=True)
+    sequence = fields.Integer('Sequence', default=1)
+    fold = fields.Boolean('Folded in Kanban')

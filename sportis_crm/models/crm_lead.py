@@ -50,10 +50,18 @@ class CrmLead(models.Model):
         for vals in vals_list:
             if 'x_company_name' not in vals:
                 vals['x_company_name'] = self.env.company.id
+            # Sinhronizacija sa standardnim company_id
+            if 'company_id' not in vals:
+                vals['company_id'] = vals.get('x_company_name') or self.env.company.id
             if not vals.get('name'):
                 vals['name'] = self.env.context.get('default_name', 'New Lead')
         return super().create(vals_list)
 
+    def write(self, vals):
+        # Ako se mijenja x_company_name, promijeni i company_id
+        if 'x_company_name' in vals:
+            vals['company_id'] = vals['x_company_name']
+        return super().write(vals)
 
 
 

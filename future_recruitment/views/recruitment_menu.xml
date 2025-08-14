@@ -5,4 +5,5 @@
 
   <menuitem id="menu_rec_position" name="Position" parent="menu_setup_recruitment" action="action_rec_positions" sequence="1"/>
   <menuitem id="menu_origin_agent" name="Origin Agent" parent="menu_setup_recruitment" action="action_origin_agent" sequence="2"/>
+  <!-- <menuitem id="menu_rec_kanban_stages" name="Stages" parent="menu_setup_recruitment" action="action_rec_kanban_stage" sequence="3"/> -->
 </odoo>

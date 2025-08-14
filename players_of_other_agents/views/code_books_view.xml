@@ -30,4 +30,71 @@
         <field name="res_model">pota.origin.agent</field>
         <field name="view_mode">list,form</field>
     </record>
+
+
+    <!-- TREE and FORM for Player Positions -->
+    <record id="view_tree_pota_position" model="ir.ui.view">
+        <field name="name">pota.position.list</field>
+        <field name="model">pota.position</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_form_pota_position" model="ir.ui.view">
+        <field name="name">pota.position.form</field>
+        <field name="model">pota.position</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_pota_positions" model="ir.actions.act_window">
+        <field name="name">Player Positions</field>
+        <field name="res_model">pota.position</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- TREE AND FORM FOR STAGES -->
+    <record id="view_my_model_stage_tree" model="ir.ui.view">
+        <field name="name">pota.kanban.stages.list</field>
+        <field name="model">pota.kanban.stages</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="sequence"/>
+                <field name="name"/>
+                <field name="fold"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_my_model_stage_form" model="ir.ui.view">
+        <field name="name">pota.kanban.stages.form</field>
+        <field name="model">pota.kanban.stages</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="sequence"/>
+                        <field name="fold"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_pota_kanban_stage" model="ir.actions.act_window">
+        <field name="name">Stages</field>
+        <field name="res_model">pota.kanban.stages</field>
+        <field name="view_mode">list,form</field>
+    </record>
 </odoo>

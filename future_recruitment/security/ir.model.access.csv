@@ -6,3 +6,4 @@ access_recruitment_tag,recruitment.tag,model_recruitment_tag,,1,1,1,1
 access_res_sport,res.sport,model_res_sport,,1,1,1,1
 access_rec_position,rec.position,model_rec_position,,1,1,1,1
 access_origin_agent,origin.agent,model_origin_agent,,1,1,1,1
+access_rec_kanban_stages,rec.kanban.stages,model_rec_kanban_stages,,1,1,1,1

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="AppDashboardTemplate">
+        <div class="o_app_container">
+            <t t-foreach="apps" t-as="app" t-key="app.id">
+                <div class="o_app_card" t-on-click="() => this.openApp(app)">
+                    <t t-if="app.web_icon_data">
+                        <img t-att-src="'data:image/png;base64,' + app.web_icon_data"/>
+                    </t>
+                    <t t-elif="app.web_icon">
+                        <img t-att-src="'/web/image/ir.ui.menu/' + app.id + '/icon'"/>
+                    </t>
+                    <t t-else="">
+                        <img src="/web/static/src/img/default_icon.png"/>
+                    </t>
+                    <div><strong><t t-esc="app.name"/></strong></div>
+                </div>
+            </t>
+        </div>
+    </t>
+</templates>

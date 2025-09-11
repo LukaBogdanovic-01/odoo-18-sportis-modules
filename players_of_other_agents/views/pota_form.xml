@@ -16,42 +16,39 @@
     </h1>
   </div>
 
-  <div class="d-flex" style="gap: 32px; align-items: flex-start;">
+  <group col="2">
     <!-- Lijeva kolona -->
-    <div style="flex: 0 0 45%; min-width: 300px;">
-      <group>
-        <field name="sport"/>
-        <field name="position"/>
-        <field name="agent_id"/>
-        <field name="origin_agent_id"/>
-        <field name="contact"/>
-        <field name="phone"/>
-        <field name="email"/>
-        <field name="country_id"/>
-        <field name="tag_ids" widget="many2many_tags"/>
-        <field name="priority" widget="priority"/>
-        <field name="create_date" readonly="1"/>
-      </group>
-    </div>
+    <group>
+      <field name="sport"/>
+      <field name="position"/>
+      <field name="agent_id"/>
+      <field name="origin_agent_id"/>
+      <field name="contact"/>
+      <field name="phone"/>
+      <field name="email"/>
+      <field name="country_id"/>
+      <field name="tag_ids" widget="many2many_tags"/>
+      <field name="priority" widget="priority"/>
+      <field name="create_date" readonly="1"/>
+      <field name="created_by" readonly="1"/>
+    </group>
 
     <!-- Desna kolona -->
-    <div style="flex: 1; overflow-wrap: break-word;">
-      <div class="d-flex justify-content-between" style="margin-bottom: 1rem;">
-        <group>
-          <field name="created_by" readonly="1"/>
-          <field name="file" widget="binary"/>
-        </group>
-        <div>
-          <field name="image" widget="image" class="oe_avatar"
-                 style="width: 128px; height: 128px; border-radius: 8px;"
-                 options="{'preview_image': 'image'}"/>
-        </div>
-      </div>
-      <group>
-        <field name="notes" colspan="2"/>
-      </group>
-    </div>
-  </div>
+    <group>
+      <field name="followup_by"/>
+      <field name="file" widget="binary"/>
+      <field name="image" widget="image" class="oe_avatar"
+             style="width: 128px; height: 128px; border-radius: 8px;"
+             options="{'preview_image': 'image'}"/>
+      <field name="notes"/>
+    </group>
+  </group>
+
+  <notebook>
+    <page string="Career">
+      <field name="career_ids"/>
+    </page>
+  </notebook>
 </sheet>
 <chatter/>
       </form>

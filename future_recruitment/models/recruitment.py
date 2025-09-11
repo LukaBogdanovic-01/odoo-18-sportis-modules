@@ -23,6 +23,7 @@ class FutureRecruitment(models.Model):
     create_date = fields.Datetime(readonly=True)
     agent_id = fields.Many2one('res.partner', string="Origin Agent invisible")
     origin_agent_id = fields.Many2one('origin.agent', string="Origin Agent")
+    followup_by = fields.Many2one('res.users', string="Follow-up by")
     image = fields.Image()
     more_info = fields.Text(string="More Information")
     state = fields.Selection([
@@ -33,8 +34,8 @@ class FutureRecruitment(models.Model):
 
     stage_id = fields.Many2one('rec.kanban.stages', string='Stage')
 
-    career_ids = fields.One2many('recruitment.career', 'recruitment_id', string="Career")
-    award_ids = fields.One2many('recruitment.award', 'recruitment_id', string="Awards")
+    career_ids = fields.Html( string="Career")
+    award_ids = fields.Html( string="Awards")
 
 
 

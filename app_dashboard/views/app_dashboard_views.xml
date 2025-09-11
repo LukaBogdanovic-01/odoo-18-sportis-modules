@@ -1,0 +1,14 @@
+<odoo>
+    <!-- Akcija koja otvara dashboard -->
+    <record id="action_app_dashboard" model="ir.actions.client">
+        <field name="name">Dashboard</field>
+        <field name="tag">app_dashboard_client</field>
+    </record>
+
+    <!-- Menuitem da možeš ručno pristupiti dashboardu -->
+    <menuitem id="menu_app_dashboard"
+              name="App Dashboard"
+              sequence="1"
+              action="action_app_dashboard"/>
+
+</odoo>

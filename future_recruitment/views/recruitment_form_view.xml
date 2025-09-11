@@ -46,6 +46,7 @@
               <field name="create_date" readonly="1"/>
               <!-- <field name="agent_id"/> -->
               <field name="origin_agent_id"/>
+              <field name="followup_by"/>
             </group>
           </group>
 
@@ -112,18 +113,17 @@
                 <i class="fa fa-user text-muted" title="Contact"/>
                 <field name="contact_id"/>
               </div>
-              <div t-if="record.position_id.raw_value">
-                <i class="fa fa-briefcase text-muted" title="Position"/>
-                <field name="position_id"/>
+              <div t-if="record.country_id.raw_value">
+                <i class="fa fa-globe text-muted" title="Country"/>
+                <field name="country_id"/>
               </div>
               <div t-if="record.sport_id.raw_value">
                 <i class="fa fa-futbol-o text-muted" title="Sport"/>
                 <field name="sport_id"/>
-
               </div>
-              <div t-if="record.country_id.raw_value">
-                <i class="fa fa-globe text-muted" title="Country"/>
-                <field name="country_id"/>
+              <div t-if="record.position_id.raw_value">
+                <i class="fa fa-briefcase text-muted" title="Position"/>
+                <field name="position_id"/>
               </div>
             </div>
 

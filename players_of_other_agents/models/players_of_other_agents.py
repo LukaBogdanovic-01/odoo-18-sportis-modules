@@ -16,6 +16,7 @@ class PlayerOtherAgent(models.Model):
     )
     agent_id = fields.Many2one('res.users', string="Agent of origin")
     origin_agent_id = fields.Many2one('pota.origin.agent', string="Origin Agent")
+    followup_by = fields.Many2one('res.users', string="Follow-up by")
     contact = fields.Char(string="Contact")
     phone = fields.Char(string="Phone")
     email = fields.Char(string="Email")
@@ -39,6 +40,7 @@ class PlayerOtherAgent(models.Model):
         ('done', 'Done'),
     ], default='new', string="Status")
     lead_id = fields.Many2one('crm.lead', string="CRM Lead")
+    career_ids = fields.Html( string="Career")
 
     stage_id = fields.Many2one('pota.kanban.stages', string='Stage')
     

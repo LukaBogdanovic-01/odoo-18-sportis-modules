@@ -16,6 +16,9 @@
         'web.assets_backend': [
             'future_recruitment/static/src/css/styles.css',
         ],
+        'web.assets_web_print': [
+            'future_recruitment/static/src/css/styles.css',   
+        ],
     },
     'installable': True,
     'application': False,

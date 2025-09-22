@@ -12,11 +12,6 @@
         'views/code_books_view.xml',
         'views/pota_menu.xml',
     ],
-    # 'assets': {
-    #     'web.assets_backend': [
-    #         'future_recruitment/static/src/css/styles.css',
-    #     ],
-    # },
     'installable': True,
     'application': False,
 }

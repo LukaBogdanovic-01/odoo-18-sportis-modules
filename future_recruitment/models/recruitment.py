@@ -1,4 +1,4 @@
-from odoo import models, fields
+from odoo import models, fields, api
 
 class FutureRecruitment(models.Model):
     _name = 'future.recruitment'
@@ -30,12 +30,18 @@ class FutureRecruitment(models.Model):
         ('new', 'Nouveau - à recruter'),
         ('in_progress', 'En cours'),
         ('done', 'Fait')
-    ], string='Status', default='new', tracking=True)
+    ], string='Status', default='new', tracking=True, group_expand='_group_expand_stage')
 
-    stage_id = fields.Many2one('rec.kanban.stages', string='Stage')
+    # stage_id = fields.Many2one('rec.kanban.stages', string='Stage')
 
     career_ids = fields.Html( string="Career")
     award_ids = fields.Html( string="Awards")
+
+
+    @api.model
+    def _group_expand_stage(self, values, domain, order=None):
+        """Prikaži uvijek sve stage-ove u definisanom redoslijedu"""
+        return ["new", "in_progress", "done"]
 
 
 
@@ -68,6 +74,15 @@ class RecruitmentTag(models.Model):
     name = fields.Char(required=True)
     color = fields.Integer(string="Color Index")
 
+    @api.model_create_multi
+    def create(self, vals_list):
+        count = self.search_count([])   # koliko već tagova postoji
+        for vals in vals_list:
+            if not vals.get("color"):
+                vals["color"] = count % 12
+                count += 1  # uvećaj brojač da svaki novi dobije narednu boju
+        return super().create(vals_list)
+
 class ResSport(models.Model):
     _name = 'res.sport'
     _description = 'Sport'
@@ -87,11 +102,11 @@ class OriginAgent(models.Model):
     name = fields.Char(required=True)
 
 
-class KanbanStages(models.Model):
-    _name = 'rec.kanban.stages'
-    _description = 'Kanban stages'
-    _order = 'sequence, id'
+# class KanbanStages(models.Model):
+#     _name = 'rec.kanban.stages'
+#     _description = 'Kanban stages'
+#     _order = 'sequence, id'
 
-    name = fields.Char('Stage Name', required=True)
-    sequence = fields.Integer('Sequence', default=1)
-    fold = fields.Boolean('Folded in Kanban')
+#     name = fields.Char('Stage Name', required=True)                   Uklonio sam prava pristupa za ovaj model !!!!
+#     sequence = fields.Integer('Sequence', default=1)
+#     fold = fields.Boolean('Folded in Kanban')

@@ -4,7 +4,7 @@
     'summary': 'Custom recruitment module for Sportis project',
     'category': 'Human Resources',
     'author': 'Luka',
-    'depends': ['base', 'mail', 'hr', 'sportis_crm'],
+    'depends': ['base', 'mail', 'sportis_crm'],
     'license': 'LGPL-3',
     'data': [
         'security/ir.model.access.csv',
@@ -12,11 +12,6 @@
         'views/code_books_view.xml',
         'views/recruitment_menu.xml',
     ],
-    # 'assets': {
-    #     'web.assets_backend': [
-    #         'future_recruitment/static/src/css/styles.css',
-    #     ],
-    # },
     'installable': True,
     'application': False,
 }

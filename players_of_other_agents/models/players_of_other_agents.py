@@ -1,4 +1,4 @@
-from odoo import models, fields
+from odoo import models, fields, api
 
 class PlayerOtherAgent(models.Model):
     _name = 'player.other.agent'
@@ -21,7 +21,7 @@ class PlayerOtherAgent(models.Model):
     phone = fields.Char(string="Phone")
     email = fields.Char(string="Email")
     country_id = fields.Many2one('res.country', string="Country")
-    tag_ids = fields.Many2many('res.partner.category', string="Tags")
+    tag_ids = fields.Many2many('pota.tag', string="Tags")#('res.partner.category', string="Tags")
     priority = fields.Selection([
         ('0', 'None'),
         ('1', 'Low'),
@@ -38,13 +38,33 @@ class PlayerOtherAgent(models.Model):
         ('checked', 'Level checked'),
         ('in_progress', 'In Progress - proposed'),
         ('done', 'Done'),
-    ], default='new', string="Status")
+    ], default='new', string="Status", tracking=True, group_expand='_read_group_state')
     lead_id = fields.Many2one('crm.lead', string="CRM Lead")
     career_ids = fields.Html( string="Career")
 
-    stage_id = fields.Many2one('pota.kanban.stages', string='Stage')
-    
+    # stage_id = fields.Many2one('pota.kanban.stages', string='Stage')
 
+    @api.model
+    def _read_group_state(self, states, domain, order=None):
+        """Fiksni redoslijed kolona u kanbanu po selection definiciji"""
+        state_order = ['new', 'checked', 'in_progress', 'done']
+        return state_order
+    
+class PotaTag(models.Model):
+    _name = 'pota.tag'
+    _description = 'Pota Tag'
+
+    name = fields.Char(required=True)
+    color = fields.Integer(string="Color Index")
+
+    @api.model_create_multi
+    def create(self, vals_list):
+        count = self.search_count([])   # koliko već tagova postoji
+        for vals in vals_list:
+            if not vals.get("color"):
+                vals["color"] = count % 12
+                count += 1  # uvećaj brojač da svaki novi dobije narednu boju
+        return super().create(vals_list)
 
 class PotaOriginAgent(models.Model):
     _name = 'pota.origin.agent'
@@ -58,11 +78,11 @@ class RecPosition(models.Model):
 
     name = fields.Char(required=True)
 
-class KanbanStages(models.Model):
-    _name = 'pota.kanban.stages'
-    _description = 'Kanban stages'
-    _order = 'sequence, id'
+# class KanbanStages(models.Model):
+#     _name = 'pota.kanban.stages'
+#     _description = 'Kanban stages'
+#     _order = 'sequence, id'
 
-    name = fields.Char('Stage Name', required=True)
-    sequence = fields.Integer('Sequence', default=1)
-    fold = fields.Boolean('Folded in Kanban')
+#     name = fields.Char('Stage Name', required=True)
+#     sequence = fields.Integer('Sequence', default=1)
+#     fold = fields.Boolean('Folded in Kanban')                          Uklonio sam prava pristupa za ovaj model!!!

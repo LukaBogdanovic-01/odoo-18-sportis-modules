@@ -6,7 +6,7 @@
       <form string="Player" class="o_form_view">
         <!-- Statusbar -->
         <div class="d-flex justify-content-end mt-2">
-          <field name="state" widget="statusbar" options="{'clickable': False}" readonly="1"/>
+          <field name="state" widget="statusbar" options="{'clickable': True}" />
         </div>
 
         <sheet>
@@ -27,7 +27,7 @@
       <field name="phone"/>
       <field name="email"/>
       <field name="country_id"/>
-      <field name="tag_ids" widget="many2many_tags"/>
+      <field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
       <field name="priority" widget="priority"/>
       <field name="create_date" readonly="1"/>
       <field name="created_by" readonly="1"/>
@@ -82,7 +82,7 @@
     <field name="name">player.other.agent.kanban</field>
     <field name="model">player.other.agent</field>
     <field name="arch" type="xml">
-      <kanban default_group_by="stage_id" class="o_kanban_mobile">
+      <kanban default_group_by="state" class="o_kanban_mobile">
         <field name="name"/>
         <field name="sport"/>
         <field name="position"/>
@@ -90,7 +90,6 @@
         <field name="origin_agent_id"/>
         <field name="country_id"/>
         <field name="priority"/>
-        <field name="state"/>
 
         <templates>
           <t t-name="card">
@@ -124,9 +123,6 @@
               <div class="mt-2 d-flex justify-content-between align-items-center">
                 <span class="badge bg-info text-white">
                   <field name="priority"/>
-                </span>
-                <span class="badge bg-secondary text-white">
-                  <field name="state"/>
                 </span>
               </div>
             </div>

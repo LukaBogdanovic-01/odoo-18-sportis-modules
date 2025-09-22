@@ -8,7 +8,7 @@
 
           <!-- Statusbar gore desno -->
           <div class="d-flex justify-content-end mb-2">
-            <field name="state" widget="statusbar" options="{'clickable': False}" readonly="1"/>
+            <field name="state" widget="statusbar" options="{'clickable': True}"/>
           </div>
 
           <!-- Slika gore desno -->
@@ -35,7 +35,7 @@
               <field name="phone"/>
               <field name="email"/>
               <field name="country_id"/>
-              <field name="tag_ids" widget="many2many_tags"/>
+              <field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
               <field name="more_info"/>
             </group>
 
@@ -80,7 +80,6 @@
         <field name="phone" optional="show"/>
         <field name="email" optional="show"/>
         <field name="country_id" optional="show"/>
-        <field name="state" optional="show"/>
         <field name="create_date" optional="show"/>
       </list>
     </field>
@@ -90,14 +89,13 @@
   <field name="name">future.recruitment.kanban</field>
   <field name="model">future.recruitment</field>
   <field name="arch" type="xml">
-    <kanban default_group_by="stage_id" class="o_kanban_mobile">
+    <kanban default_group_by="state" class="o_kanban_mobile">
       <field name="name"/>
       <field name="position_id"/>
       <field name="sport_id"/>
       <field name="contact_id"/>
       <field name="country_id"/>
       <field name="priority"/>
-      <field name="state"/>
 
       <templates>
         <t t-name="card">
@@ -131,9 +129,6 @@
             <div class="mt-2 d-flex justify-content-between align-items-center">
               <span class="badge bg-info text-white">
                 <field name="priority"/>
-              </span>
-              <span class="badge bg-secondary text-white">
-                <field name="state"/>
               </span>
             </div>
           </div>

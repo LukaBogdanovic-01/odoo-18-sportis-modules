@@ -1,4 +1,6 @@
 <odoo>
+    <menuitem id="contacts.menu_contacts" name="Contact" sequence="3"/>
+    
     <menuitem id="menu_contact_setup"
               name="Setup"
               parent="contacts.menu_contacts"

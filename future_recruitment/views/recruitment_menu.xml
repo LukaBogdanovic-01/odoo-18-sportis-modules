@@ -1,5 +1,5 @@
 <odoo>
-  <menuitem id="menu_future_recruitment_root" name="Future Recruitment" sequence="10"/>
+  <menuitem id="menu_future_recruitment_root" name="Future Recruitment" sequence="4"/>
   <menuitem id="menu_new_players_acquisition" name="New-players_aquisition" parent="menu_future_recruitment_root" action="action_new_players_acquisition" sequence="1"/>
   <menuitem id="menu_setup_recruitment" name="Setup" parent="menu_future_recruitment_root" sequence="2"/>
 

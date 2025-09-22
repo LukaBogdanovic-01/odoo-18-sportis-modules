@@ -64,7 +64,7 @@
 
 
 <!-- TREE AND FORM FOR STAGES -->
-    <record id="view_my_model_stage_tree" model="ir.ui.view">
+    <!-- <record id="view_my_model_stage_tree" model="ir.ui.view">
         <field name="name">rec.kanban.stages.list</field>
         <field name="model">rec.kanban.stages</field>
         <field name="arch" type="xml">
@@ -96,6 +96,6 @@
         <field name="name">Stages</field>
         <field name="res_model">rec.kanban.stages</field>
         <field name="view_mode">list,form</field>
-    </record>
+    </record> -->
 
 </odoo>

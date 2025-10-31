@@ -1,0 +1,16 @@
+<odoo>
+    <record id="rec_stage_new" model="rec.kanban.stage">
+        <field name="name">Nouveau - à recruter</field>
+        <field name="sequence">1</field>
+    </record>
+
+    <record id="rec_stage_in_progress" model="rec.kanban.stage">
+        <field name="name">En cours</field>
+        <field name="sequence">2</field>
+    </record>
+
+    <record id="rec_stage_done" model="rec.kanban.stage">
+        <field name="name">Fait</field>
+        <field name="sequence">3</field>
+    </record>
+</odoo>

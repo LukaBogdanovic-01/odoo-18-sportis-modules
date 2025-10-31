@@ -1,97 +1,106 @@
 <odoo>
     <record id="view_crm_lead_form_sportis" model="ir.ui.view">
-        <field name="name">crm.lead.form.sportis</field>
-        <field name="model">crm.lead</field>
-        <field name="inherit_id" ref="crm.crm_lead_view_form"/>
-        <field name="arch" type="xml">
+    <field name="name">crm.lead.form.sportis</field>
+    <field name="model">crm.lead</field>
+    <field name="inherit_id" ref="crm.crm_lead_view_form"/>
+    <field name="arch" type="xml">
 
-            <!-- Dodaj dugme New Quotation -->
-            <xpath expr="//header/button[@name='action_set_won_rainbowman']" position="before">
-                <button name="action_set_new_quotation"
-                        string="New Quotation"
-                        type="object"
-                        class="btn-secondary"
-                        modifiers="{'invisible': [('stage_name', '=', 'New Quotation')]}"/>
-            </xpath>
+        <!-- Dugme New Quotation -->
+        <xpath expr="//header/button[@name='action_set_won_rainbowman']" position="before">
+            <button name="action_set_new_quotation"
+                    string="New Quotation"
+                    type="object"
+                    class="btn-secondary"
+                    modifiers="{'invisible': [('stage_name', '=', 'New Quotation')]}"/>
+        </xpath>
 
-            <!-- Dodaj statusbar -->
-            <xpath expr="//header" position="inside">
-                <field name="x_secondary_stage" widget="statusbar" class="float-end" options="{'clickable': True}"/>
-            </xpath>
+        
+        
 
-            
-            <xpath expr="//div[hasclass('d-flex','flex-wrap','align-items-baseline')]" position="replace">
-                <div class="d-flex flex-wrap align-items-baseline">
-                    <field name="company_currency" invisible="1"/>
-                    <field name="expected_revenue" class="o_input_13ch" widget="monetary" options="{'currency_field': 'company_currency'}"/>
-                    <field name="recurring_plan" class="oe_inline o_input_13ch" placeholder="e.g. Monthly" options="{'no_create': True, 'no_open': True}"/>
-                </div>
-            </xpath>
+        <!-- Revenue blok (ostaje tvoj jednostavniji) -->
+        <xpath expr="//div[hasclass('d-flex','flex-wrap','align-items-baseline')]" position="replace">
+            <div class="d-flex flex-wrap align-items-baseline">
+                <field name="company_currency" invisible="1"/>
+                <field name="expected_revenue" class="o_input_13ch" widget="monetary"
+                       options="{'currency_field': 'company_currency'}"/>
+                <field name="recurring_plan" class="oe_inline o_input_13ch"
+                       placeholder="e.g. Monthly"
+                       options="{'no_create': True, 'no_open': True}"/>
+            </div>
+        </xpath>
 
+        <!-- Contact info prilagodbe -->
+        <xpath expr="//group[@name='opportunity_partner']//field[@name='phone']" position="replace">
+            <field name="phone" string="Primary Phone" widget="phone"/>
+        </xpath>
 
+        <xpath expr="//field[@name='probability']" position="attributes">
+            <attribute name="invisible">1</attribute>
+        </xpath>
+        <xpath expr="//div[@id='probability']/span" position="replace"/>
+        <xpath expr="//button[@name='action_set_automated_probability']" position="replace"/>
+        <xpath expr="//field[@name='automated_probability']" position="replace"/>
 
-            <xpath expr="//group[@name='opportunity_partner']//field[@name='phone']" position="replace">
-                <field name="phone" string="Primary Phone" widget="phone"/>
-            </xpath>
+        <xpath expr="//field[@name='lead_properties']" position="attributes">
+            <attribute name="invisible">1</attribute>
+        </xpath>
 
-            <!-- Ostali xpath-i iz prethodnog koda -->
-            <xpath expr="//field[@name='probability']" position="attributes">
-                <attribute name="invisible">1</attribute>
-            </xpath>
-            <xpath expr="//div[@id='probability']/span" position="replace"/>
-            <xpath expr="//button[@name='action_set_automated_probability']" position="replace"/>
-            <xpath expr="//field[@name='automated_probability']" position="replace"/>
+        <xpath expr="//group[@name='opportunity_partner']//field[@name='partner_id']" position="before">
+            <separator string="INFORMATION"/>
+            <field name="x_company_name"/>
+        </xpath>
+        <xpath expr="//group[@name='opportunity_partner']//field[@name='partner_id']" position="after">
+            <field name="x_contact_name"/>
+        </xpath>
+        <xpath expr="//group[@name='opportunity_partner']//div[hasclass('o_row','o_row_readonly')][.//field[@name='phone']]" position="after">
+            <field name="x_mobile_from_contact"/>
+        </xpath>
 
-            <xpath expr="//field[@name='lead_properties']" position="attributes">
-                <attribute name="invisible">1</attribute>
-            </xpath>
+        <!-- Sakrij svuda user_id gdje se pojavi u main formu -->
+        <xpath expr="//field[@name='user_id']" position="replace"/>
 
-            <xpath expr="//group[@name='opportunity_partner']//field[@name='partner_id']" position="before">
-                <separator string="INFORMATION"/>
-                <field name="x_company_name"/>
-            </xpath>
-            <xpath expr="//group[@name='opportunity_partner']//field[@name='partner_id']" position="after">
-                <field name="x_contact_name"/>
-            </xpath>
-            <xpath expr="//div[hasclass('o_row','o_row_readonly')][.//field[@name='phone']]" position="after">
-                <field name="x_mobile_from_contact"/>
-            </xpath>
+        <!-- ***** DESNA KOLONA (opportunity strana) ***** -->
+        <!-- 1) Ubaci prilagođena polja iznad 'Expected Closing' labela -->
+        <xpath expr="//label[@for='date_deadline']" position="before">
+            <field name="x_player_position"/>
+            <field name="x_player_nationality"/>
+            <field name="x_country_request"/>
+            <field name="x_priority"/>
+        </xpath>
 
-            <xpath expr="//field[@name='user_id']" position="replace"/>
-            <xpath expr="//field[@name='tag_ids']" position="after">
-                <field name="x_priority"/>
-                <field name="x_player_position"/>
-                <field name="x_player_nationality"/>
-                <field name="x_country_request"/>
-                <field name="x_file" filename="name"/>
-            </xpath>
+        <!-- 2) Dodaj upload odmah poslije onog tag_ids koji ide uz Expected Closing -->
+        <xpath expr="//label[@for='date_deadline']/following::field[@name='tag_ids'][1]" position="after">
+            <field name="x_file" filename="name"/>
+        </xpath>
 
-            <xpath expr="//page[@name='lead']" position="replace">
-                <page name="extra_info" string="Extra Information">
+        <!-- TAB: Extra Information (tvoja verzija) -->
+        <xpath expr="//page[@name='lead']" position="replace">
+            <page name="extra_info" string="Extra Information">
+                <group>
                     <group>
-                        <group>
-                            <separator string=" "/>
-                            <field name="other_contact"/>
-                            <field name="function" string="Job Position"/>
-                            <field name="mobile"/>
-                            <field name="website"/>
-                            <field name="description" string="Notes about contact"/>
-                        </group>
-                        <group>
-                            <separator string="Tracking"/>
-                            <field name="create_uid" string="Created by"/>
-                            <field name="create_date" string="Created on"/>
-                            <field name="user_id" string="Salesperson"/>
-                            <field name="team_id" string="Sales Team"/>
-                            <field name="day_open"/>
-                            <field name="date_closed" string="Days to Close"/>
-                        </group>
+                        <separator string=" "/>
+                        <field name="other_contact"/>
+                        <field name="function" string="Job Position"/>
+                        <field name="mobile"/>
+                        <field name="website"/>
+                        <field name="description" string="Notes about contact"/>
                     </group>
-                </page>
-            </xpath>
+                    <group>
+                        <separator string="Tracking"/>
+                        <field name="create_uid" string="Created by"/>
+                        <field name="create_date" string="Created on"/>
+                        <field name="user_id" string="Salesperson"/>
+                        <field name="team_id" string="Sales Team"/>
+                        <field name="day_open"/>
+                        <field name="date_closed" string="Days to Close"/>
+                    </group>
+                </group>
+            </page>
+        </xpath>
 
-        </field>
-    </record>
+    </field>
+</record>
+
 
     <record id="crm_lead_quick_create_form_inherit_sportis" model="ir.ui.view">
         <field name="name">crm.lead.form.quick.create.inherit.sportis</field>
@@ -157,6 +166,18 @@
         </field>
     </record>
 
+    <!-- Akcija za export -->
+    <record id="action_export_crm_leads" model="ir.actions.server">
+        <field name="name">Export</field>
+        <field name="model_id" ref="crm.model_crm_lead"/>
+        <field name="binding_model_id" ref="crm.model_crm_lead"/>
+        <field name="binding_type">action</field>
+        <field name="binding_view_types">form</field>
+        <field name="state">code</field>
+        <field name="code">
+            action = env['crm.lead'].sudo().export_records()
+        </field>
+    </record>
 
 
 </odoo>

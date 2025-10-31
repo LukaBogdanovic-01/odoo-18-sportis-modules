@@ -8,6 +8,7 @@
     'license': 'LGPL-3',
     'data': [
         'security/ir.model.access.csv',
+        'data/pota_kanban_stage_data.xml',
         'views/pota_form.xml',
         'views/code_books_view.xml',
         'views/pota_menu.xml',

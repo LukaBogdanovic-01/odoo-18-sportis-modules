@@ -33,22 +33,70 @@ class PlayerOtherAgent(models.Model):
     notes = fields.Text(string="Notes")
     file = fields.Binary(string="Add File")
     image = fields.Binary(string="Image", attachment=True)
-    state = fields.Selection([
-        ('new', 'New other players'),
-        ('checked', 'Level checked'),
-        ('in_progress', 'In Progress - proposed'),
-        ('done', 'Done'),
-    ], default='new', string="Status", tracking=True, group_expand='_read_group_state')
+    stage_id = fields.Many2one(
+        'pota.kanban.stage',
+        string='Stage',
+        ondelete='set null',
+        index=True,
+        tracking=True,
+        group_expand='_read_group_stage_ids',
+    )
+
+    state = fields.Selection([ ('new', 'New other players'), ('checked', 'Level checked'), ('in_progress', 'In Progress - proposed'), ('done', 'Done'), ], default='new', string="Status", tracking=True, group_expand='_read_group_state')
     lead_id = fields.Many2one('crm.lead', string="CRM Lead")
     career_ids = fields.Html( string="Career")
 
-    # stage_id = fields.Many2one('pota.kanban.stages', string='Stage')
+    contract_date = fields.Datetime(string="Contract Date")
+
 
     @api.model
-    def _read_group_state(self, states, domain, order=None):
-        """Fiksni redoslijed kolona u kanbanu po selection definiciji"""
-        state_order = ['new', 'checked', 'in_progress', 'done']
-        return state_order
+    def _read_group_stage_ids(self, stages, domain, order=None, **kwargs):
+        """Always show all stages in kanban and statusbar"""
+        return self.env['pota.kanban.stage'].search([], order=order or 'sequence, id')
+
+    def export_records(self):
+        """Export selektovanih agenata u CSV fajl"""
+        import io
+        import base64
+        import csv
+
+        # ako korisnik nije selektovao ništa, exportuj sve
+        records = self or self.search([])
+
+        # napravi CSV u memoriji
+        buffer = io.StringIO()
+        writer = csv.writer(buffer)
+        writer.writerow(['Name', 'Sport', 'Email', 'Phone', 'Country'])  # zaglavlje
+        for rec in records:
+            writer.writerow([
+                rec.name or '',
+                rec.sport.name or '',
+                rec.email or '',
+                rec.phone or '',
+                rec.country_id.name or ''
+            ])
+        csv_data = buffer.getvalue()
+        buffer.close()
+
+        # napravi attachment
+        data = base64.b64encode(csv_data.encode('utf-8'))
+        attachment = self.env['ir.attachment'].create({
+            'name': 'other_agents_export.csv',
+            'type': 'binary',
+            'datas': data,
+            'res_model': 'player.other.agent',
+            'mimetype': 'text/csv',
+        })
+
+        # otvori ga u browseru
+        return {
+            'type': 'ir.actions.act_url',
+            'url': f'/web/content/{attachment.id}?download=true',
+            'target': 'self',
+        }
+
+
+
     
 class PotaTag(models.Model):
     _name = 'pota.tag'
@@ -78,11 +126,12 @@ class RecPosition(models.Model):
 
     name = fields.Char(required=True)
 
-# class KanbanStages(models.Model):
-#     _name = 'pota.kanban.stages'
-#     _description = 'Kanban stages'
-#     _order = 'sequence, id'
+class KanbanStages(models.Model):
+    _name = 'pota.kanban.stage'
+    _description = 'Kanban stage'
+    _order = 'sequence, id'
 
-#     name = fields.Char('Stage Name', required=True)
-#     sequence = fields.Integer('Sequence', default=1)
-#     fold = fields.Boolean('Folded in Kanban')                          Uklonio sam prava pristupa za ovaj model!!!
+    name = fields.Char('Stage Name', required=True)
+    sequence = fields.Integer('Sequence', default=1)
+    fold = fields.Boolean('Folded in Kanban')  
+    active = fields.Boolean(default=True)                     

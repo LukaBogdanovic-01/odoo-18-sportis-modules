@@ -3,3 +3,4 @@ access_player_other_agent,access_player_other_agent,model_player_other_agent,,1,
 access_pota_origin_agent,pota.origin.agent,model_pota_origin_agent,,1,1,1,1
 access_pota_position,pota.position,model_pota_position,,1,1,1,1
 access_pota_tag,pota.tag,model_pota_tag,,1,1,1,1
+access_pota_kanban_stage_user,access.pota.kanban.stage.user,model_pota_kanban_stage,base.group_user,1,1,1,1

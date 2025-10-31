@@ -1,0 +1,21 @@
+<odoo>
+    <record id="pota_stage_new" model="pota.kanban.stage">
+        <field name="name">New other players</field>
+        <field name="sequence">1</field>
+    </record>
+
+    <record id="pota_stage_checked" model="pota.kanban.stage">
+        <field name="name">Level checked</field>
+        <field name="sequence">2</field>
+    </record>
+
+    <record id="pota_stage_in_progress" model="pota.kanban.stage">
+        <field name="name">In Progress - proposed</field>
+        <field name="sequence">3</field>
+    </record>
+
+    <record id="pota_stage_done" model="pota.kanban.stage">
+        <field name="name">Done</field>
+        <field name="sequence">4</field>
+    </record>
+</odoo>

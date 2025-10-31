@@ -1,5 +1,10 @@
 <odoo>
-  <menuitem id="menu_future_recruitment_root" name="Future Recruitment" sequence="4"/>
+  <record id="menu_future_recruitment_root" model="ir.ui.menu">
+      <field name="name">Future Recruitment</field>
+      <field name="sequence">8</field>
+      <field name="web_icon">future_recruitment,static/description/icon.png</field>
+  </record>
+
   <menuitem id="menu_new_players_acquisition" name="New-players_aquisition" parent="menu_future_recruitment_root" action="action_new_players_acquisition" sequence="1"/>
   <menuitem id="menu_setup_recruitment" name="Setup" parent="menu_future_recruitment_root" sequence="2"/>
 

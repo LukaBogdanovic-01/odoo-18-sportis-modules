@@ -6,7 +6,7 @@
       <form string="Player" class="o_form_view">
         <!-- Statusbar -->
         <div class="d-flex justify-content-end mt-2">
-          <field name="state" widget="statusbar" options="{'clickable': True}" />
+          <field name="stage_id" widget="statusbar" options="{'clickable': True}" />
         </div>
 
         <sheet>
@@ -21,7 +21,7 @@
     <group>
       <field name="sport"/>
       <field name="position"/>
-      <field name="agent_id"/>
+      <field name="agent_id" invisible="1"/>
       <field name="origin_agent_id"/>
       <field name="contact"/>
       <field name="phone"/>
@@ -71,7 +71,7 @@
         <field name="email" optional="show"/>
         <field name="country_id" optional="show"/>
         <field name="priority" optional="show"/>
-        <field name="state" optional="show"/>
+        <field name="stage_id" optional="show"/>
         <field name="create_date" optional="show"/>
         <field name="created_by" optional="show"/>
       </list>
@@ -82,53 +82,110 @@
     <field name="name">player.other.agent.kanban</field>
     <field name="model">player.other.agent</field>
     <field name="arch" type="xml">
-      <kanban default_group_by="state" class="o_kanban_mobile">
+        <kanban default_group_by="stage_id" class="o_kanban_mobile" default_order="priority desc">
+            <field name="name"/>
+            <field name="sport"/>
+            <field name="position"/>
+            <field name="agent_id"/>
+            <field name="origin_agent_id"/>
+            <field name="country_id"/>
+            <field name="priority"/>
+            <field name="tag_ids"/>
+
+            <templates>
+                <t t-name="card">
+                    <div class="oe_kanban_global_click o_kanban_card p-2">
+                        <!-- Naslov -->
+                        <div>
+                            <strong><field name="name"/></strong>
+                        </div>
+                        <!-- Pozicija i Prioritet u istom redu -->
+                        <div class="mt-2 d-flex justify-content-between align-items-center">
+                            <div t-if="record.position.raw_value">
+                                <i class="fa fa-briefcase text-muted" title="Position"/>
+                                <field name="position"/>
+                            </div>
+                            <div t-if="record.priority.raw_value">
+                                <field name="priority" widget="priority"/>
+                            </div>
+                        </div>
+                        <!-- Ostali osnovni podaci -->
+                        <div class="mt-2">
+                            <div t-if="record.sport.raw_value">
+                                <i class="fa fa-futbol-o text-muted" title="Sport"/>
+                                <field name="sport"/>
+                            </div>
+                            <div t-if="record.origin_agent_id.raw_value">
+                                <i class="fa fa-user-tie text-muted" title="Agent"/>
+                                <field name="origin_agent_id"/>
+                            </div>
+                            <div t-if="record.country_id.raw_value">
+                                <i class="fa fa-globe text-muted" title="Country"/>
+                                <field name="country_id"/>
+                            </div>
+                        </div>
+                        <!-- TAGOVI na dnu -->
+                        <div t-if="record.tag_ids.raw_value">
+                            <field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
+                        </div>
+                    </div>
+                </t>
+            </templates>
+        </kanban>
+    </field>
+</record>
+
+
+  <record id="view_player_other_agent_calendar" model="ir.ui.view">
+    <field name="name">player.other.agent.calendar</field>
+    <field name="model">player.other.agent</field>
+    <field name="arch" type="xml">
+      <calendar string="Players (Other Agent)"
+                date_start="contract_date">
         <field name="name"/>
         <field name="sport"/>
         <field name="position"/>
-        <field name="agent_id"/>
         <field name="origin_agent_id"/>
-        <field name="country_id"/>
-        <field name="priority"/>
+      </calendar>
+    </field>
+  </record>
 
-        <templates>
-          <t t-name="card">
-            <div class="oe_kanban_global_click o_kanban_card p-2">
-              <!-- Naslov -->
-              <div>
-                <strong><field name="name"/></strong>
-              </div>
+  <record id="view_player_other_agent_activity" model="ir.ui.view">
+      <field name="name">player.other.agent.activity</field>
+      <field name="model">player.other.agent</field>
+      <field name="arch" type="xml">
+          <activity string="Activities">
+              <field name="name"/>
+              <field name="origin_agent_id"/>
+              <field name="country_id"/>
+              <field name="priority"/>
+              <field name="stage_id"/>
+          </activity>
+      </field>
+  </record>
 
-              <!-- Osnovni podaci -->
-              <div class="mt-2">
-                <div t-if="record.position.raw_value">
-                  <i class="fa fa-briefcase text-muted" title="Position"/>
-                  <field name="position"/>
-                </div>
-                <div t-if="record.sport.raw_value">
-                  <i class="fa fa-futbol-o text-muted" title="Sport"/>
-                  <field name="sport"/>
-                </div>
-                <div t-if="record.agent_id.raw_value">
-                  <i class="fa fa-user-tie text-muted" title="Agent"/>
-                  <field name="agent_id"/>
-                </div>
-                <div t-if="record.country_id.raw_value">
-                  <i class="fa fa-globe text-muted" title="Country"/>
-                  <field name="country_id"/>
-                </div>
-              </div>
+  <record id="view_player_other_agent_graph" model="ir.ui.view">
+    <field name="name">player.other.agent.graph</field>
+    <field name="model">player.other.agent</field>
+    <field name="arch" type="xml">
+      <graph string="Player Other Agents Analysis" type="bar">
+        <field name="sport" type="row"/>
+        <field name="country_id" type="col"/>
+        <field name="id" type="measure"/>
+      </graph>
+    </field>
+  </record>
 
-              <!-- Status i prioritet -->
-              <div class="mt-2 d-flex justify-content-between align-items-center">
-                <span class="badge bg-info text-white">
-                  <field name="priority"/>
-                </span>
-              </div>
-            </div>
-          </t>
-        </templates>
-      </kanban>
+  <record id="view_player_other_agent_pivot" model="ir.ui.view">
+    <field name="name">player.other.agent.pivot</field>
+    <field name="model">player.other.agent</field>
+    <field name="arch" type="xml">
+      <pivot string="Player Other Agents Analysis">
+        <field name="country_id" type="row"/>
+        <field name="sport" type="col"/>
+        <field name="priority" type="col"/>
+        <field name="id" type="measure"/>
+      </pivot>
     </field>
   </record>
 
@@ -136,9 +193,25 @@
 
 
 
+
+  <record id="action_export_other_agents" model="ir.actions.server">
+      <field name="name">Export</field>
+      <field name="model_id" ref="model_player_other_agent"/>
+      <field name="binding_model_id" ref="model_player_other_agent"/>
+      <field name="binding_type">action</field>
+      <field name="binding_view_types">form</field>
+      <field name="state">code</field>
+      <field name="code">
+          action = env['player.other.agent'].sudo().export_records()
+      </field>
+  </record>
+
+
+
+
   <record id="action_player_other_agent" model="ir.actions.act_window">
     <field name="name">Players_other_agent</field>
     <field name="res_model">player.other.agent</field>
-    <field name="view_mode">kanban,list,form</field>
+    <field name="view_mode">kanban,list,form,graph,pivot,calendar,activity</field>
   </record>
 </odoo>

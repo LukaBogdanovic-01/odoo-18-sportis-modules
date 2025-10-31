@@ -69,6 +69,16 @@
           </div>
         </xpath>
 
+        <!-- 1) Ukloni postojeći "Internal Notes" iz parenta -->
+        <xpath expr="//sheet/notebook/page[@name='internal_notes']" position="replace"/>
+
+        <!-- 2) Ubaci ga kao PRVI tab -->
+        <xpath expr="//sheet/notebook/page[1]" position="before">
+            <page name="internal_notes" string="Internal Notes">
+                <field name="comment" placeholder="Internal notes..."/>
+            </page>
+        </xpath>
+
       </field>
     </record>
 
@@ -85,7 +95,18 @@
       </field>
   </record>
 
-
+  <!-- Akcija za export -->
+  <record id="action_export_res_partners" model="ir.actions.server">
+      <field name="name">Export</field>
+      <field name="model_id" ref="base.model_res_partner"/>
+      <field name="binding_model_id" ref="base.model_res_partner"/>
+      <field name="binding_type">action</field>
+      <field name="binding_view_types">form</field>
+      <field name="state">code</field>
+      <field name="code">
+          action = env['res.partner'].sudo().export_records()
+      </field>
+  </record>
 
 
 

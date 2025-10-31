@@ -26,22 +26,72 @@ class FutureRecruitment(models.Model):
     followup_by = fields.Many2one('res.users', string="Follow-up by")
     image = fields.Image()
     more_info = fields.Text(string="More Information")
-    state = fields.Selection([
-        ('new', 'Nouveau - à recruter'),
-        ('in_progress', 'En cours'),
-        ('done', 'Fait')
-    ], string='Status', default='new', tracking=True, group_expand='_group_expand_stage')
-
-    # stage_id = fields.Many2one('rec.kanban.stages', string='Stage')
+    stage_id = fields.Many2one(
+        'rec.kanban.stage',
+        string="Stage",
+        ondelete='set null',
+        index=True,
+        tracking=True,
+        group_expand='_read_group_stage_ids',
+    )
 
     career_ids = fields.Html( string="Career")
     award_ids = fields.Html( string="Awards")
 
+    interview_date = fields.Datetime(string="Interview Date")
+
+    state = fields.Selection([ ('new', 'Nouveau - à recruter'), ('in_progress', 'En cours'), ('done', 'Fait') ], string='Status', default='new', tracking=True, group_expand='_group_expand_stage')
 
     @api.model
-    def _group_expand_stage(self, values, domain, order=None):
-        """Prikaži uvijek sve stage-ove u definisanom redoslijedu"""
-        return ["new", "in_progress", "done"]
+    def _read_group_stage_ids(self, stages, domain, order=None):
+        """Always show all stages in kanban"""
+        return self.env['rec.kanban.stage'].search([], order=order)
+
+    def export_records(self):
+        """Export Future Recruitment zapisa u CSV"""
+        import io
+        import base64
+        import csv
+
+        # Ako korisnik nije selektovao ništa, exportuj sve
+        records = self or self.search([])
+
+        buffer = io.StringIO()
+        writer = csv.writer(buffer)
+        writer.writerow(['Name', 'Position', 'Email', 'Phone', 'Country', 'Sport', 'Priority'])  # header
+        for rec in records:
+            writer.writerow([
+                rec.name or '',
+                rec.position_id.name or '',
+                rec.email or '',
+                rec.phone or '',
+                rec.country_id.name or '',
+                rec.sport_id.name or '',
+                dict(self._fields['priority'].selection).get(rec.priority, ''),
+            ])
+
+        csv_data = buffer.getvalue()
+        buffer.close()
+
+        # Kreiraj attachment i ponudi download
+        data = base64.b64encode(csv_data.encode('utf-8'))
+        attachment = self.env['ir.attachment'].create({
+            'name': 'future_recruitments_export.csv',
+            'type': 'binary',
+            'datas': data,
+            'res_model': 'future.recruitment',
+            'mimetype': 'text/csv',
+        })
+
+        return {
+            'type': 'ir.actions.act_url',
+            'url': f'/web/content/{attachment.id}?download=true',
+            'target': 'self',
+        }
+
+
+
+
 
 
 
@@ -102,11 +152,12 @@ class OriginAgent(models.Model):
     name = fields.Char(required=True)
 
 
-# class KanbanStages(models.Model):
-#     _name = 'rec.kanban.stages'
-#     _description = 'Kanban stages'
-#     _order = 'sequence, id'
+class KanbanStages(models.Model):
+    _name = 'rec.kanban.stage'
+    _description = 'Kanban stage'
+    _order = 'sequence, id'
 
-#     name = fields.Char('Stage Name', required=True)                   Uklonio sam prava pristupa za ovaj model !!!!
-#     sequence = fields.Integer('Sequence', default=1)
-#     fold = fields.Boolean('Folded in Kanban')
+    name = fields.Char('Stage Name', required=True)                 
+    sequence = fields.Integer('Sequence', default=1)
+    fold = fields.Boolean('Folded in Kanban')
+    active = fields.Boolean(default=True)

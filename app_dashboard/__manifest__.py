@@ -2,6 +2,7 @@
     'name': 'App Dashboard',
     'version': '1.0',
     'category': 'Tools',
+    'license': 'LGPL-3',
     'icon': '/web/static/src/img/icons/pie-chart.svg',
     'summary': 'Custom landing page with all installed apps',
     'depends': ['base'],

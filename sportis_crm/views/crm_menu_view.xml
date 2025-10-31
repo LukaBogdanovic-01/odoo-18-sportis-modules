@@ -1,6 +1,16 @@
 <odoo>
     <menuitem id="crm.crm_menu_root" name="CRM" sequence="2"/>
-    <!-- Setup root -->
+    <menuitem id="project_todo.menu_todo_todos" name="To-Do" sequence="4"/>
+    <menuitem id="mail.menu_root_discuss" name="Discuss" sequence="5"/>
+    <menuitem id="calendar.mail_menu_calendar" name="Calendar" sequence="6"/>
+    <menuitem id="project.menu_main_pm" name="Project" sequence="7"/>
+    <menuitem id="mass_mailing.menu_email_marketing_root" name="Email Marketing" sequence="10"/>
+    <menuitem id="website.menu_website_root" name="Website" sequence="11"/>
+    <menuitem id="account.menu_finance" name="Invoicing" sequence="12"/>
+    <menuitem id="spreadsheet_dashboard.spreadsheet_dashboard_menu_root" name="Dashboards" sequence="13"/>
+
+
+    
     <menuitem id="menu_crm_setup_root"
               name="Setup"
               parent="crm.crm_menu_root"

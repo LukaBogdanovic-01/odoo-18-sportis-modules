@@ -6,9 +6,9 @@
     background: linear-gradient(135deg, #e0d7f7 0%, #d6cdea 40%, #ebe4f7 100%);
 }
 
-.o_web_client,
-.o_action_manager,
-.o_content {
+.o_app_dashboard_page .o_web_client,
+.o_app_dashboard_page .o_action_manager,
+.o_app_dashboard_page .o_content {
     height: auto !important;
     min-height: 100vh;
     overflow-y: auto !important;
@@ -21,7 +21,7 @@
     grid-template-columns: repeat(5, 160px);
     justify-content: center;
     align-content: start;
-    gap: 30px 50px;
+    gap: 30px 40px;
     padding: 100px;
     min-height: 100vh;
 }
@@ -31,8 +31,8 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 140px;
-    width: 160px;
+    height: 120px;
+    width: 140px;
     border-radius: 12px;
     box-shadow: 0 2px 6px rgba(0,0,0,0.1);
     cursor: pointer;
@@ -62,27 +62,47 @@
     }
 
     .o_app_dashboard_page .o_app_card {
-        width: 140px;
-        height: 130px;
+        width: 130px;
+        height: 120px;
     }
 }
 
 /* ===== Mobilna verzija (<= 600px) ===== */
 @media (max-width: 600px) {
+    .o_app_dashboard_page {  
+        max-height: 100vh;     /* tačno visina ekrana */
+        overflow-y: auto;     /* scroll ako ima previše aplikacija */
+        display: flex;
+        justify-content: center; /* centriraj grid horizontalno */
+        padding-top: 20px;
+    }
+
     .o_app_dashboard_page .o_app_container {
-        grid-template-columns: repeat(2, 1fr);
-        padding: 20px 15px;
-        gap: 20px;
-        justify-items: center;
+        display: grid;
+        grid-template-columns: repeat(3, auto); /* 3 ikonice po redu */
+        gap: 18px;              /* veći razmak između kartica */
+        justify-content: center;
+        padding: 15px 10px;     /* malo više margine gore/dole */
     }
 
     .o_app_dashboard_page .o_app_card {
-        width: 70%;
-        height: 120px;
+        width: 95px;            /* malo veće kartice */
+        height: 95px;
+        padding: 10px;
+        border-radius: 12px;
+        text-align: center;
     }
 
     .o_app_dashboard_page .o_app_card img {
-        width: 48px;
-        height: 48px;
+        width: 40px;            /* malo veće ikonice */
+        height: 40px;
+        margin-bottom: 8px;
+    }
+
+    .o_app_dashboard_page .o_app_card strong {
+        font-size: 13px;        /* malo čitljiviji font */
     }
 }
+
+
+

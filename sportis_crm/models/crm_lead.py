@@ -63,6 +63,47 @@ class CrmLead(models.Model):
             vals['company_id'] = vals['x_company_name']
         return super().write(vals)
 
+    def export_records(self):
+        """Export CRM leads u CSV"""
+        import io
+        import base64
+        import csv
+
+        leads = self or self.search([])
+
+        buffer = io.StringIO()
+        writer = csv.writer(buffer)
+        writer.writerow(['Name', 'Company', 'Email', 'Phone', "Player's Position", 'Nationality', 'Country Request'])
+        for lead in leads:
+            writer.writerow([
+                lead.name or '',
+                lead.partner_id.name or '',
+                lead.email_from or '',
+                lead.phone or '',
+                lead.x_player_position.name or '',
+                lead.x_player_nationality.name or '',
+                lead.x_country_request.name or '',
+            ])
+
+        csv_data = buffer.getvalue()
+        buffer.close()
+
+        data = base64.b64encode(csv_data.encode('utf-8'))
+        attachment = self.env['ir.attachment'].create({
+            'name': 'crm_leads_export.csv',
+            'type': 'binary',
+            'datas': data,
+            'res_model': 'crm.lead',
+            'mimetype': 'text/csv',
+        })
+
+        return {
+            'type': 'ir.actions.act_url',
+            'url': f'/web/content/{attachment.id}?download=true',
+            'target': 'self',
+        }
+
+
 
 
 
@@ -111,6 +152,47 @@ class ResPartner(models.Model):
                 rec.country_id.name if rec.country_id else ''
             ]))
             rec.full_address = address
+
+    def export_records(self):
+        """Export kontakata u CSV"""
+        import io
+        import base64
+        import csv
+
+        contacts = self or self.search([])
+
+        buffer = io.StringIO()
+        writer = csv.writer(buffer)
+        writer.writerow(['Name', 'Email', 'Phone', 'Country', 'Decision Maker', 'Qualification', 'Sport'])
+        for c in contacts:
+            writer.writerow([
+                c.name or '',
+                c.email or '',
+                c.phone or '',
+                c.country_id.name or '',
+                dict(self._fields['decision_maker'].selection).get(c.decision_maker, ''),
+                c.contact_qualification.name or '',
+                c.sport.name or '',
+            ])
+
+        csv_data = buffer.getvalue()
+        buffer.close()
+
+        data = base64.b64encode(csv_data.encode('utf-8'))
+        attachment = self.env['ir.attachment'].create({
+            'name': 'contacts_export.csv',
+            'type': 'binary',
+            'datas': data,
+            'res_model': 'res.partner',
+            'mimetype': 'text/csv',
+        })
+
+        return {
+            'type': 'ir.actions.act_url',
+            'url': f'/web/content/{attachment.id}?download=true',
+            'target': 'self',
+        }
+
 
 
 class PlayerPriority(models.Model):

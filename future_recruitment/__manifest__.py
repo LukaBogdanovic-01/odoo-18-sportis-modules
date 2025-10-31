@@ -8,10 +8,12 @@
     'license': 'LGPL-3',
     'data': [
         'security/ir.model.access.csv',
+        'data/rec_kanban_stage_data.xml',
         'views/recruitment_form_view.xml',
         'views/code_books_view.xml',
         'views/recruitment_menu.xml',
     ],
     'installable': True,
     'application': False,
+
 }

@@ -42,7 +42,6 @@ class PlayerOtherAgent(models.Model):
         group_expand='_read_group_stage_ids',
     )
 
-    state = fields.Selection([ ('new', 'New other players'), ('checked', 'Level checked'), ('in_progress', 'In Progress - proposed'), ('done', 'Done'), ], default='new', string="Status", tracking=True, group_expand='_read_group_state')
     lead_id = fields.Many2one('crm.lead', string="CRM Lead")
     career_ids = fields.Html( string="Career")
 

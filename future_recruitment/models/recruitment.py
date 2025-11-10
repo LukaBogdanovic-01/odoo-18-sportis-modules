@@ -40,8 +40,7 @@ class FutureRecruitment(models.Model):
 
     interview_date = fields.Datetime(string="Interview Date")
 
-    state = fields.Selection([ ('new', 'Nouveau - à recruter'), ('in_progress', 'En cours'), ('done', 'Fait') ], string='Status', default='new', tracking=True, group_expand='_group_expand_stage')
-
+    
     @api.model
     def _read_group_stage_ids(self, stages, domain, order=None):
         """Always show all stages in kanban"""

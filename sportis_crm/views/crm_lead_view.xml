@@ -5,18 +5,6 @@
     <field name="inherit_id" ref="crm.crm_lead_view_form"/>
     <field name="arch" type="xml">
 
-        <!-- Dugme New Quotation -->
-        <xpath expr="//header/button[@name='action_set_won_rainbowman']" position="before">
-            <button name="action_set_new_quotation"
-                    string="New Quotation"
-                    type="object"
-                    class="btn-secondary"
-                    modifiers="{'invisible': [('stage_name', '=', 'New Quotation')]}"/>
-        </xpath>
-
-        
-        
-
         <!-- Revenue blok (ostaje tvoj jednostavniji) -->
         <xpath expr="//div[hasclass('d-flex','flex-wrap','align-items-baseline')]" position="replace">
             <div class="d-flex flex-wrap align-items-baseline">

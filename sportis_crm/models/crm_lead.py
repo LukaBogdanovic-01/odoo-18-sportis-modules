@@ -107,6 +107,7 @@ class CrmLead(models.Model):
 
 
 
+
 class ResPartner(models.Model):
     _inherit = 'res.partner'
 

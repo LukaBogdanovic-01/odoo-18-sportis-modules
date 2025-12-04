@@ -40,7 +40,40 @@ class FutureRecruitment(models.Model):
 
     interview_date = fields.Datetime(string="Interview Date")
 
-    
+    meeting_count = fields.Integer(compute="_compute_meetings")
+    meeting_title = fields.Char(compute="_compute_meetings")
+    meeting_date_label = fields.Char(compute="_compute_meetings")
+
+    def _compute_meetings(self):
+        Calendar = self.env["calendar.event"]
+
+        for rec in self:
+            meetings = Calendar.search([
+                ("res_model", "=", "future.recruitment"),
+                ("res_id", "=", rec.id),
+            ], order="start DESC")
+
+            rec.meeting_count = len(meetings)
+
+            if meetings:
+                last = meetings[0]
+                rec.meeting_title = "Last Meeting"
+                rec.meeting_date_label = last.start.strftime('%m/%d/%Y')
+            else:
+                rec.meeting_title = "Next Meeting"
+                rec.meeting_date_label = ""
+
+
+
+    @api.model_create_multi
+    def create(self, vals_list):
+        Stage = self.env['rec.kanban.stage']
+        default_stage = Stage.search([], order='sequence asc', limit=1)
+        for vals in vals_list:
+            if not vals.get('stage_id'):
+                vals['stage_id'] = default_stage.id
+        return super().create(vals_list)
+
     @api.model
     def _read_group_stage_ids(self, stages, domain, order=None):
         """Always show all stages in kanban"""
@@ -132,6 +165,8 @@ class RecruitmentTag(models.Model):
                 count += 1  # uvećaj brojač da svaki novi dobije narednu boju
         return super().create(vals_list)
 
+
+
 class ResSport(models.Model):
     _name = 'res.sport'
     _description = 'Sport'
@@ -160,3 +195,12 @@ class KanbanStages(models.Model):
     sequence = fields.Integer('Sequence', default=1)
     fold = fields.Boolean('Folded in Kanban')
     active = fields.Boolean(default=True)
+
+    is_won = fields.Boolean("Is Won Stage")
+    is_last_stage = fields.Boolean(compute="_compute_is_last_stage")
+
+    def _compute_is_last_stage(self):
+        for stage in self:
+            stages = self.search([])
+            max_seq = max(stages.mapped("sequence")) if stages else 0
+            stage.is_last_stage = (stage.sequence == max_seq)

@@ -23,13 +23,14 @@
                 <field name="contact_qualification"/>
                 <field name="decision_maker" widget="radio" options="{'horizontal': true}"/>
                 <field name="phone" string="Primary phone"/>
+                <field name="phone_actions" widget="html"/>
                 <field name="mobile"/>
                 <field name="phone_secondary" string="Office phone"/>
                 <field name="email"/>
                 <field name="website" placeholder="e.g. https://www.example.com"/>
                 <field name="category_id" widget="many2many_tags" placeholder="e.g. 'B2B', 'VIP', 'Consulting', ..."/>
                 <field name="followup_by_id" widget="many2one_avatar_user"/>
-                <field name="company_id" options="{'no_create': True}"/>
+                <field name="company_id" options="{'no_create': True}" string="Sport"/>
                 <field name="lang" invisible="1"/>
                 <field name="country_location"/>
               </group>
@@ -56,13 +57,14 @@
 
                 <group>
                   <field name="phone" string="Primary phone"/>
+                  <field name="phone_actions" widget="html"/>
                   <field name="mobile"/>
                   <field name="phone_secondary" string="Office phone"/>
                   <field name="email"/>
                   <field name="website" placeholder="e.g. https://www.example.com"/>
                   <field name="category_id" widget="many2many_tags"/>
                   <field name="followup_by_id" widget="many2one_avatar_user"/>
-                  <field name="company_id" options="{'no_create': True}"/>
+                  <field name="company_id" options="{'no_create': True}" string="Sport"/>
                   <field name="training_center" widget="boolean_toggle" string="Training center"/>
                   <field name="country_location"/>
                 </group>

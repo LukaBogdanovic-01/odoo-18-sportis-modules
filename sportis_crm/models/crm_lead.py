@@ -106,8 +106,6 @@ class CrmLead(models.Model):
 
 
 
-
-
 class ResPartner(models.Model):
     _inherit = 'res.partner'
 
@@ -193,6 +191,28 @@ class ResPartner(models.Model):
             'url': f'/web/content/{attachment.id}?download=true',
             'target': 'self',
         }
+
+    phone_actions = fields.Html(compute="_compute_phone_actions", sanitize=False)
+
+    def _compute_phone_actions(self):
+        for rec in self:
+            if rec.phone:
+                phone = rec.phone.replace(" ", "")
+                rec.phone_actions = f"""
+                    <span>
+                        <a href='tel:{phone}' style='margin-right:8px'>
+                            📞 Call
+                        </a>
+                        <a href='sms:{phone}' style='margin-right:8px'>
+                            ✉️ SMS
+                        </a>
+                        <a href='https://wa.me/{phone}' target='_blank'>
+                            💬 WhatsApp
+                        </a>
+                    </span>
+                """
+            else:
+                rec.phone_actions = ""
 
 
 

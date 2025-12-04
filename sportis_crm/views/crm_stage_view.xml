@@ -2,7 +2,7 @@
     <record id="view_crm_stage_form_inherit_sequence" model="ir.ui.view">
         <field name="name">crm.stage.form.inherit.sequence</field>
         <field name="model">crm.stage</field>
-        <field name="inherit_id" search="[('model', '=', 'crm.stage'), ('type', '=', 'form')]"/>
+        <field name="inherit_id" ref="crm.crm_stage_form"/>
         <field name="arch" type="xml">
             <xpath expr="//field[@name='name']" position="after">
                 <field name="sequence"/>

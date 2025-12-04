@@ -64,21 +64,22 @@
 
 
 <!-- TREE AND FORM FOR STAGES -->
-    <!-- <record id="view_my_model_stage_tree" model="ir.ui.view">
-        <field name="name">rec.kanban.stages.list</field>
-        <field name="model">rec.kanban.stages</field>
+    <record id="view_my_model_stage_tree" model="ir.ui.view">
+        <field name="name">rec.kanban.stage.list</field>
+        <field name="model">rec.kanban.stage</field>
         <field name="arch" type="xml">
             <list>
                 <field name="sequence"/>
                 <field name="name"/>
                 <field name="fold"/>
+                <field name="active"/>
             </list>
         </field>
     </record>
 
     <record id="view_my_model_stage_form" model="ir.ui.view">
-        <field name="name">rec.kanban.stages.form</field>
-        <field name="model">rec.kanban.stages</field>
+        <field name="name">rec.kanban.stage.form</field>
+        <field name="model">rec.kanban.stage</field>
         <field name="arch" type="xml">
             <form>
                 <sheet>
@@ -86,6 +87,8 @@
                         <field name="name"/>
                         <field name="sequence"/>
                         <field name="fold"/>
+                        <field name="active"/>
+                        <field name="is_won" invisible="not is_last_stage"/>
                     </group>
                 </sheet>
             </form>
@@ -94,8 +97,8 @@
 
     <record id="action_rec_kanban_stage" model="ir.actions.act_window">
         <field name="name">Stages</field>
-        <field name="res_model">rec.kanban.stages</field>
+        <field name="res_model">rec.kanban.stage</field>
         <field name="view_mode">list,form</field>
-    </record> -->
+    </record> 
 
 </odoo>

@@ -5,8 +5,23 @@
       <field name="res_model">calendar.event</field>
       <field name="view_mode">form</field>
       <field name="target">new</field>
-      <field name="context">{'default_name': 'Next Meeting', 'default_res_model': 'future.recruitment'}</field>
+      <field name="context">
+      {
+          'default_name': 'Next Meeting',
+          'default_res_model': 'future.recruitment',
+          'default_res_id': active_id,
+          'default_partner_ids': [],
+      }
+      </field>
+
   </record>
+  <record id="action_recruitment_meetings" model="ir.actions.act_window">
+      <field name="name">Meetings</field>
+      <field name="res_model">calendar.event</field>
+      <field name="view_mode">list,form,calendar"</field>
+      <field name="domain">[("res_model","=","future.recruitment"), ("res_id","=", context.get("active_id"))]</field>
+  </record>
+
 
   <record id="view_recruitment_form" model="ir.ui.view">
     <field name="name">recruitment.form</field>
@@ -16,17 +31,21 @@
         <sheet>
 
           <div name="button_box" class="oe_button_box" invisible="not id">
-            <button class="oe_stat_button"
-                    type="action"
-                    name="%(action_next_meeting_from_recruitment)d"
-                    icon="fa-calendar">
-              <div class="o_stat_info">
-                <span class="o_stat_text"
-                      style="display:flex; align-items:center; gap:4px; font-weight:600;">
-                  Next Meeting
-                </span>
-              </div>
-            </button>
+              <button class="oe_stat_button"
+                      type="action"
+                      name="%(action_next_meeting_from_recruitment)d"
+                      icon="fa-calendar">
+
+                  <div class="o_stat_info" style="display:flex; flex-direction:column;">
+                      <span class="o_stat_text">
+                          <field name="meeting_title"/>
+                      </span>
+                      <span class="o_stat_value">
+                          <field name="meeting_date_label"/>
+                      </span>
+                  </div>
+
+              </button>
           </div>
           <!-- Statusbar gore desno -->
           <div class="d-flex justify-content-end mb-2">
@@ -119,6 +138,7 @@
             <field name="country_id"/>
             <field name="priority"/>
             <field name="tag_ids"/>
+            
 
             <templates>
                 <t t-name="card">
@@ -157,9 +177,8 @@
 
                         <!-- TAGOVI -->
                         <div t-if="record.tag_ids.raw_value">
-                            <field name="tag_ids" widget="many2many_tags"/>
+                            <field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
                         </div>
-
                     </div>
                 </t>
             </templates>

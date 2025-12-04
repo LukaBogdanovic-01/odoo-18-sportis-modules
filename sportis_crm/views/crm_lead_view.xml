@@ -45,7 +45,7 @@
         </xpath>
 
         <!-- Sakrij svuda user_id gdje se pojavi u main formu -->
-        <xpath expr="//field[@name='user_id']" position="replace"/>
+        <!-- <xpath expr="//field[@name='user_id']" position="replace"/> -->
 
         <!-- ***** DESNA KOLONA (opportunity strana) ***** -->
         <!-- 1) Ubaci prilagođena polja iznad 'Expected Closing' labela -->
@@ -153,6 +153,7 @@
             </xpath>
         </field>
     </record>
+
 
     <!-- Akcija za export -->
     <record id="action_export_crm_leads" model="ir.actions.server">

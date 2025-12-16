@@ -201,18 +201,39 @@ class ResPartner(models.Model):
                 rec.phone_actions = f"""
                     <span>
                         <a href='tel:{phone}' style='margin-right:8px'>
-                            📞 Call
-                        </a>
-                        <a href='sms:{phone}' style='margin-right:8px'>
-                            ✉️ SMS
-                        </a>
-                        <a href='https://wa.me/{phone}' target='_blank'>
-                            💬 WhatsApp
+                             📞 Call
+                         </a>
+                         <a href='sms:{phone}' style='margin-right:8px'>
+                             ✉️ SMS
+                         </a>
+                         <a href='https://wa.me/{phone}' target='_blank'>
+                             💬 WhatsApp
                         </a>
                     </span>
                 """
             else:
                 rec.phone_actions = ""
+
+
+    phone_kanban = fields.Html(
+        compute="_compute_phone_kanban",
+        sanitize=False
+    )
+    
+
+    def _compute_phone_kanban(self):
+        for rec in self:
+            if rec.phone:
+                phone = rec.phone.replace(" ", "")
+                rec.phone_kanban = f"""
+                    <span class="d-flex align-items-center gap-2">
+                        <span>{rec.phone}</span>
+                        <a href="sms:{phone}" title="SMS">✉️ SMS</a>
+                        <a href="https://wa.me/{phone}" target="_blank" title="WhatsApp">💬 WhatsApp</a>
+                    </span>
+                """
+            else:
+                rec.phone_kanban = ""
 
 
 

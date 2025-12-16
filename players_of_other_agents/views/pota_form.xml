@@ -1,19 +1,22 @@
 <odoo>
-
-  <record id="action_next_meeting_from_agent" model="ir.actions.act_window">
-      <field name="name">Schedule Meeting</field>
+  <record id="action_player_other_agent_meetings" model="ir.actions.act_window">
+      <field name="name">Meetings</field>
       <field name="res_model">calendar.event</field>
-      <field name="view_mode">form</field>
-      <field name="target">new</field>
+      <field name="view_mode">calendar,list,form</field>
+      <field name="domain">
+          [
+            ('res_model', '=', 'player.other.agent'),
+            ('res_id', '=', active_id)
+          ]
+      </field>
       <field name="context">
-      {
-          'default_name': 'Next Meeting',
-          'default_res_model': 'player.other.agent',
-          'default_res_id': active_id,
-          'default_partner_ids': [],
-      }
+          {
+            'default_res_model': 'player.other.agent',
+            'default_res_id': active_id
+          }
       </field>
   </record>
+
 
 
   <record id="view_player_other_agent_form" model="ir.ui.view">
@@ -26,7 +29,7 @@
 
             <button class="oe_stat_button"
                     type="action"
-                    name="%(action_next_meeting_from_agent)d"
+                    name="%(action_player_other_agent_meetings)d"
                     icon="fa-calendar">
 
                 <div class="o_stat_info" style="display:flex; flex-direction:column;">
@@ -55,12 +58,23 @@
   <group col="2">
     <!-- Lijeva kolona -->
     <group>
+      <field name="active" invisible="1"/>
       <field name="sport"/>
       <field name="position"/>
       <field name="agent_id" invisible="1"/>
       <field name="origin_agent_id"/>
       <field name="contact"/>
-      <field name="phone"/>
+      <div class="d-flex align-items-center gap-2">
+                    <label for="phone" class="o_form_label me-5 sportis-strong-label">
+                        Primary phone
+                    </label>
+                      <div style="min-width: 200px;">
+                          <field name="phone" string="Primary phone"/>
+                      </div>
+                      <div>
+                          <field name="phone_actions" widget="html" nolabel="1"/>
+                      </div>
+                  </div>
       <field name="email"/>
       <field name="country_id"/>
       <field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
@@ -127,6 +141,8 @@
             <field name="country_id"/>
             <field name="priority"/>
             <field name="tag_ids"/>
+            <field name="phone_kanban"/>
+
 
             <templates>
                 <t t-name="card">
@@ -158,6 +174,9 @@
                             <div t-if="record.country_id.raw_value">
                                 <i class="fa fa-globe text-muted" title="Country"/>
                                 <field name="country_id"/>
+                            </div>
+                            <div t-if="record.phone_kanban.raw_value" class="mt-2 text-muted">
+                                <field name="phone_kanban" widget="html" nolabel="1"/>
                             </div>
                         </div>
                         <!-- TAGOVI na dnu -->

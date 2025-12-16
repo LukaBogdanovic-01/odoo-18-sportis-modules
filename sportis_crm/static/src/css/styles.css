@@ -28,3 +28,9 @@
   color: black;
   border-color: #28a745 ;
 }
+
+
+.sportis-strong-label {
+    font-weight: 600 !important;
+    color: #000000 !important;
+}

@@ -6,6 +6,7 @@ class PlayerOtherAgent(models.Model):
     _inherit = ['mail.thread', 'mail.activity.mixin']
 
     name = fields.Char(string="Name", required=True)
+    active = fields.Boolean(default=True)
     sport = fields.Many2one('res.company', string="Sport")
     position = fields.Many2one(
         'pota.position',
@@ -28,7 +29,7 @@ class PlayerOtherAgent(models.Model):
         ('2', 'Normal'),
         ('3', 'High'),
     ], string="Priority")
-    create_date = fields.Datetime(string="Created on", readonly=True)
+    # create_date = fields.Datetime(string="Created on", readonly=True)
     created_by = fields.Many2one('res.users', string="Created  by", default=lambda self: self.env.user)
     notes = fields.Text(string="Notes")
     file = fields.Binary(string="Add File")
@@ -52,24 +53,47 @@ class PlayerOtherAgent(models.Model):
     meeting_date_label = fields.Char(compute="_compute_agent_meetings")
 
 
+
     def _compute_agent_meetings(self):
         Calendar = self.env["calendar.event"]
+        now = fields.Datetime.now()
 
         for rec in self:
-            meetings = Calendar.search([
+            # future meeting
+            next_meeting = Calendar.search([
                 ("res_model", "=", "player.other.agent"),
                 ("res_id", "=", rec.id),
-            ], order="start DESC")
+                ("start", ">=", now),
+            ], order="start ASC", limit=1)
 
-            rec.meeting_count = len(meetings)
+            if next_meeting:
+                rec.meeting_title = "Next meeting"
+                rec.meeting_date_label = next_meeting.start.strftime('%m/%d/%Y')
+                rec.meeting_count = Calendar.search_count([
+                    ("res_model", "=", "player.other.agent"),
+                    ("res_id", "=", rec.id),
+                ])
+                continue
 
-            if meetings:
-                last = meetings[0]
-                rec.meeting_title = "Last Meeting"
-                rec.meeting_date_label = last.start.strftime('%m/%d/%Y')
+            # past meeting
+            last_meeting = Calendar.search([
+                ("res_model", "=", "player.other.agent"),
+                ("res_id", "=", rec.id),
+                ("start", "<", now),
+            ], order="start DESC", limit=1)
+
+            if last_meeting:
+                rec.meeting_title = "Last meeting"
+                rec.meeting_date_label = last_meeting.start.strftime('%m/%d/%Y')
+                rec.meeting_count = Calendar.search_count([
+                    ("res_model", "=", "player.other.agent"),
+                    ("res_id", "=", rec.id),
+                ])
             else:
-                rec.meeting_title = "Next Meeting"
+                rec.meeting_title = "No meeting"
                 rec.meeting_date_label = ""
+                rec.meeting_count = 0
+
 
 
     @api.model_create_multi
@@ -126,6 +150,47 @@ class PlayerOtherAgent(models.Model):
             'url': f'/web/content/{attachment.id}?download=true',
             'target': 'self',
         }
+
+    phone_actions = fields.Html(compute="_compute_phone_actions", sanitize=False)
+
+    def _compute_phone_actions(self):
+        for rec in self:
+            if rec.phone:
+                phone = rec.phone.replace(" ", "")
+                rec.phone_actions = f"""
+                    <span>
+                        <a href='tel:{phone}' style='margin-right:8px'>
+                             📞 Call
+                         </a>
+                         <a href='sms:{phone}' style='margin-right:8px'>
+                             ✉️ SMS
+                         </a>
+                         <a href='https://wa.me/{phone}' target='_blank'>
+                             💬 WhatsApp
+                        </a>
+                    </span>
+                """
+            else:
+                rec.phone_actions = ""
+
+    phone_kanban = fields.Html(
+        compute="_compute_phone_kanban",
+        sanitize=False
+    )
+
+    def _compute_phone_kanban(self):
+        for rec in self:
+            if rec.phone:
+                phone = rec.phone.replace(" ", "")
+                rec.phone_kanban = f"""
+                    <span class="d-flex align-items-center gap-2">
+                        <span>{rec.phone}</span>
+                        <a href="sms:{phone}" title="SMS">✉️ SMS</a>
+                        <a href="https://wa.me/{phone}" target="_blank" title="WhatsApp">💬 WhatsApp</a>
+                    </span>
+                """
+            else:
+                rec.phone_kanban = ""
 
 
 
